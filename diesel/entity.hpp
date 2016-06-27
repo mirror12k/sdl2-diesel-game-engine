@@ -19,12 +19,20 @@ class drawing_context;
 class entity
 {
 public:
-    const bool is_drawn = 0;
+
+    virtual bool is_drawn () const;
 
     virtual void update (update_context* ctx);
     virtual void draw (drawing_context* ctx);
 };
 
+
+
+class graphic_entity : public entity
+{
+public:
+    bool is_drawn () const;
+};
 
 
 

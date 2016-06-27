@@ -6,9 +6,20 @@ namespace diesel
 {
 
 
+
+bool entity::is_drawn () const
+{
+    return false;
+}
+
 void entity::update(update_context* ctx) {}
 void entity::draw(drawing_context* ctx) {}
 
+
+bool graphic_entity::is_drawn () const
+{
+    return true;
+}
 
 
 

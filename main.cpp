@@ -5,10 +5,9 @@
 #include "diesel/context.hpp"
 
 
-class test_entity : public diesel::entity
+class test_entity : public diesel::graphic_entity
 {
 public:
-    const bool is_drawn = 1;
     void update (diesel::update_context* ctx)
     {
         printf("lol hello\n");
@@ -35,6 +34,14 @@ int main ()
 
     ents.update();
 
+    diesel::drawing_context win("lol test", 1200, 640);
+
+    win.start_graphics();
+    win.clear();
+    win.present();
+
+    SDL_Delay(1000);
+    SDL_Delay(1000);
 
     return 0;
 }
