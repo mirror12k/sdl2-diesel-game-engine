@@ -23,9 +23,15 @@ int main ()
 
     pool.add_entity(new diesel::entity());
 
+    diesel::entity* ent = new test_entity();
+    pool.add_entity(ent);
     pool.add_entity(new test_entity());
-
     pool.update();
+
+    printf("removing entity!\n");
+    pool.remove_entity(ent);
+    pool.update();
+
 
     return 0;
 }
