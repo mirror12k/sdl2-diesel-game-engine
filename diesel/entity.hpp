@@ -1,22 +1,28 @@
 
 
 #include <list>
-
-
 using std::list;
+
+
+
+#include <stdio.h>
+
 
 
 namespace diesel
 {
 
+class update_context;
+class drawing_context;
+
 
 class entity
 {
 public:
-    bool is_drawn = 0;
+    const bool is_drawn = 0;
 
-    virtual void update ();
-    virtual void draw ();
+    virtual void update (update_context* ctx);
+    virtual void draw (drawing_context* ctx);
 };
 
 
@@ -32,7 +38,9 @@ public:
     ~entity_pool();
 
 
-    void update ();
+    void update (update_context* ctx);
+    void draw (drawing_context* ctx);
+
     // removes any entities from the pool which are scheduled for removal
     // called automatically at the start of update()
     void update_removals ();

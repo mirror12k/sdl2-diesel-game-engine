@@ -2,14 +2,12 @@
 #include "entity.hpp"
 
 
-#include <stdio.h>
-
 namespace diesel
 {
 
 
-void entity::update() {}
-void entity::draw() {}
+void entity::update(update_context* ctx) {}
+void entity::draw(drawing_context* ctx) {}
 
 
 
@@ -21,14 +19,22 @@ entity_pool::~entity_pool()
 }
 
 
-void entity_pool::update()
+void entity_pool::update(update_context* ctx)
 {
-    this->update_removals();
-
     for (list<entity*>::iterator iter = this->entity_pool.begin(), iter_end = this->entity_pool.end(); iter != iter_end; iter++)
     {
 //        printf("updating ent\n");
-        (*iter)->update();
+        (*iter)->update(ctx);
+    }
+
+    this->update_removals();
+}
+
+void entity_pool::draw(drawing_context* ctx)
+{
+    for (list<entity*>::iterator iter = this->entity_pool.begin(), iter_end = this->entity_pool.end(); iter != iter_end; iter++)
+    {
+        (*iter)->draw(ctx);
     }
 }
 
