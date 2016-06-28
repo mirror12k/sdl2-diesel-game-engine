@@ -1,9 +1,10 @@
 
 
 #include "entity.hpp"
+#include "graphics.hpp"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <map>
+using std::map;
 
 
 namespace diesel
@@ -15,6 +16,7 @@ class update_context
 private:
     entity_pool drawn_pool;
     entity_pool undrawn_pool;
+
 public:
 
     void add_entity (entity* ent);
@@ -36,6 +38,8 @@ private:
     char* window_title;
     int window_width, window_height;
 
+    map<const char*, SDL_Texture*> loaded_textures;
+
 public:
     drawing_context(char* window_title, int window_width, int window_height);
     ~drawing_context();
@@ -50,7 +54,12 @@ public:
     SDL_Texture* load_texture(const char* filename);
     SDL_Texture* surface_to_texture(SDL_Surface* surf);
 
-    void draw_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst);
+    SDL_Texture* get_texture(const char* filename);
+
+    void draw_texture(SDL_Texture* tex, SDL_Rect* dst);
+    void draw_sub_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst);
+
+    void draw_sprite(named_sprite* sprite);
 
 };
 

@@ -132,9 +132,38 @@ SDL_Texture* drawing_context::surface_to_texture(SDL_Surface* surf)
     return tex;
 }
 
-void drawing_context::draw_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst)
+SDL_Texture* drawing_context::get_texture(const char* filename)
+{
+    map<const char*, SDL_Texture*>::iterator result = this->loaded_textures.find(filename);
+    if (result == this->loaded_textures.end()) {
+        SDL_Texture* tex = this->load_texture(filename);
+        this->loaded_textures[filename] = tex;
+        return tex;
+    } else {
+        return result->second;
+    }
+}
+
+
+
+
+void drawing_context::draw_texture(SDL_Texture* tex, SDL_Rect* dst)
+{
+    SDL_RenderCopy(this->renderer, tex, nullptr, dst);
+}
+
+void drawing_context::draw_sub_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst)
 {
     SDL_RenderCopy(this->renderer, tex, src, dst);
+}
+
+
+void drawing_context::draw_sprite(named_sprite* sprite)
+{
+    if (sprite->texture == nullptr) {
+        sprite->texture = this->get_texture(sprite->filename);
+    }
+    this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &sprite->rect);
 }
 
 
