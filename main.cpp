@@ -35,9 +35,12 @@ int main ()
     ents.update();
 
     diesel::drawing_context win("lol test", 1200, 640);
-
     win.start_graphics();
+
+    SDL_Texture* tex = win.load_texture("tetris_grey_block.png");
+
     win.clear();
+    win.draw_texture(tex, nullptr, nullptr);
     win.present();
 
     SDL_Delay(1000);

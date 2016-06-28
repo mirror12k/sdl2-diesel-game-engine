@@ -3,6 +3,7 @@
 #include "entity.hpp"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 
 namespace diesel
@@ -44,6 +45,12 @@ public:
 
     void clear();
     void present();
+
+    SDL_Surface* load_surface(const char* filename);
+    SDL_Texture* load_texture(const char* filename);
+    SDL_Texture* surface_to_texture(SDL_Surface* surf);
+
+    void draw_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst);
 
 };
 

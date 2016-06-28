@@ -93,6 +93,51 @@ void drawing_context::present()
     SDL_RenderPresent(this->renderer);
 }
 
+
+SDL_Surface* drawing_context::load_surface(const char* filename)
+{
+    SDL_Surface* surf = IMG_Load(filename);
+    if (surf == nullptr) {
+        printf("image load error: %s\n", IMG_GetError());
+        exit(1);
+    } else {
+        SDL_Surface* processed_surf = SDL_ConvertSurfaceFormat(surf, this->screen->format->format, 0);
+        SDL_FreeSurface(surf);
+         if (surf == nullptr) {
+            printf("image conversion error\n");
+            exit(1);
+        } else {
+            return processed_surf;
+        }
+    }
+}
+
+
+SDL_Texture* drawing_context::load_texture(const char* filename)
+{
+    SDL_Surface* surf = this->load_surface(filename);
+    SDL_Texture* tex = this->surface_to_texture(surf);
+    SDL_FreeSurface(surf);
+
+    return tex;
+}
+
+SDL_Texture* drawing_context::surface_to_texture(SDL_Surface* surf)
+{
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(this->renderer, surf);
+    if (tex == nullptr) {
+        printf("texture loading error\n");
+        exit(1);
+    }
+    return tex;
+}
+
+void drawing_context::draw_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst)
+{
+    SDL_RenderCopy(this->renderer, tex, src, dst);
+}
+
+
 }
 
 
