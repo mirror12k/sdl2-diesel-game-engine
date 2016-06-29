@@ -25,6 +25,8 @@ public:
     void update ();
     void draw (drawing_context* ctx);
 
+    const uint8_t* get_keyboard_state();
+
 };
 
 

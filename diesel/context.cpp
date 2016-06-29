@@ -42,6 +42,11 @@ void update_context::draw (drawing_context* ctx)
 }
 
 
+const uint8_t* update_context::get_keyboard_state()
+{
+    return SDL_GetKeyboardState(NULL);
+}
+
 
 
 }
