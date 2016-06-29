@@ -11,6 +11,7 @@ game::game(char* window_title, int window_width, int window_height, int fps)
 : graphics(window_title, window_width, window_height), fps(fps)
 {
     this->frame_delay = 1000 / fps;
+    this->graphics.start_graphics();
 }
 
 
@@ -26,7 +27,6 @@ void game::check_input()
 
 void game::run()
 {
-    this->graphics.start_graphics();
     this->running = true;
 
     while (this->running)
@@ -43,6 +43,11 @@ void game::run()
     }
 }
 
+void game::load_scene(scene* scene)
+{
+    scene->load_graphics(&this->graphics);
+    scene->load_entities(&this->entity_data);
+}
 
 
 void game::set_running(bool running)

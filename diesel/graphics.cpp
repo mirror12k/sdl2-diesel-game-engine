@@ -6,7 +6,7 @@ namespace diesel
 {
 
 
-named_sprite::named_sprite(const char* filename, int w, int h, int tiles_x, int tiles_y)
+named_sprite::named_sprite(const string& filename, int w, int h, int tiles_x, int tiles_y)
 {
     this->filename = filename;
     this->sprite_rect.w = w;
@@ -105,9 +105,9 @@ void drawing_context::present()
 }
 
 
-SDL_Surface* drawing_context::load_surface(const char* filename)
+SDL_Surface* drawing_context::load_surface(const string& filename)
 {
-    SDL_Surface* surf = IMG_Load(filename);
+    SDL_Surface* surf = IMG_Load(filename.c_str());
     if (surf == nullptr) {
         printf("image load error: %s\n", IMG_GetError());
         exit(1);
@@ -124,7 +124,7 @@ SDL_Surface* drawing_context::load_surface(const char* filename)
 }
 
 
-SDL_Texture* drawing_context::load_texture(const char* filename)
+SDL_Texture* drawing_context::load_texture(const string& filename)
 {
     SDL_Surface* surf = this->load_surface(filename);
     SDL_Texture* tex = this->surface_to_texture(surf);
@@ -143,9 +143,9 @@ SDL_Texture* drawing_context::surface_to_texture(SDL_Surface* surf)
     return tex;
 }
 
-SDL_Texture* drawing_context::get_texture(const char* filename)
+SDL_Texture* drawing_context::get_texture(const string& filename)
 {
-    map<const char*, SDL_Texture*>::iterator result = this->loaded_textures.find(filename);
+    map<string, SDL_Texture*>::iterator result = this->loaded_textures.find(filename);
     if (result == this->loaded_textures.end()) {
         SDL_Texture* tex = this->load_texture(filename);
         this->loaded_textures[filename] = tex;

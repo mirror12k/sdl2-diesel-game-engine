@@ -6,6 +6,7 @@
 #include "diesel/graphic_entity.hpp"
 #include "diesel/game.hpp"
 #include "diesel/dynamic_loading.hpp"
+#include "diesel/scene.hpp"
 
 
 class test_entity : public diesel::graphic_entity
@@ -92,9 +93,13 @@ int main ()
     diesel::dynamic_value dval(15);
 
     dval.as_int();
-    dval.as_ref();
+
+
+    diesel::file_scene scn("asdf", "qwerty");
+    scn.load_file(".gitignore");
 
     diesel::game game ("lol test", 800, 640, 30);
+    game.load_scene(new diesel::file_scene("load_sprites.lst", ""));
     game.run();
 
     return 0;

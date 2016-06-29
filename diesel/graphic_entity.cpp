@@ -7,7 +7,7 @@ namespace diesel
 {
 
 
-graphic_entity::graphic_entity(const char* filename, int x, int y)
+graphic_entity::graphic_entity(string filename, int x, int y)
 : sprite(filename, x, y)
 {
 

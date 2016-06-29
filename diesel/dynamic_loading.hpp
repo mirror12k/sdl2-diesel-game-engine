@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <map>
+using std::map;
+
 #include <string>
 using std::string;
 
@@ -61,6 +64,8 @@ public:
 
 };
 
+
+typedef map<string, dynamic_value> dynamic_object_value;
 
 
 }

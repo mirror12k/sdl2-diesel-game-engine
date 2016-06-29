@@ -2,6 +2,7 @@
 #pragma once
 
 #include "context.hpp"
+#include "scene.hpp"
 
 
 
@@ -25,6 +26,7 @@ public:
     void check_input();
 
     void run();
+    void load_scene(scene* scene);
 
     void set_running(bool running);
 
