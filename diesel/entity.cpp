@@ -16,12 +16,6 @@ void entity::update(update_context* ctx) {}
 void entity::draw(drawing_context* ctx) {}
 
 
-bool graphic_entity::is_drawn () const
-{
-    return true;
-}
-
-
 
 
 entity_pool::~entity_pool()

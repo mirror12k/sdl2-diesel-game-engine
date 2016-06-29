@@ -1,4 +1,7 @@
 
+#pragma once
+
+
 
 #include <list>
 using std::list;
@@ -26,13 +29,6 @@ public:
     virtual void draw (drawing_context* ctx);
 };
 
-
-
-class graphic_entity : public entity
-{
-public:
-    bool is_drawn () const;
-};
 
 
 
