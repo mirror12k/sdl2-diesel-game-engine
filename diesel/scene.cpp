@@ -14,11 +14,47 @@ namespace diesel
 {
 
 
+bool scene::is_drawn () const
+{
+    return true;
+}
+
+
 // placeholder functions for when a scene doesn't require any loading
 void scene::load_graphics(drawing_context* ctx)
-{}
+{
+    this->set_graphics_loaded();
+}
 void scene::load_entities(update_context* ctx)
-{}
+{
+    this->set_entities_loaded();
+}
+
+
+
+void scene::set_graphics_loaded(bool graphics_loaded)
+{
+    this->graphics_loaded = graphics_loaded;
+}
+void scene::set_entities_loaded(bool entities_loaded)
+{
+    this->entities_loaded = entities_loaded;
+}
+
+void scene::update(update_context* ctx)
+{
+    if (not this->entities_loaded)
+        this->load_entities(ctx);
+    else if (this->entities_loaded && this->graphics_loaded)
+        ctx->remove_entity(this);
+}
+
+void scene::draw(drawing_context* ctx)
+{
+    if (not this->graphics_loaded)
+        this->load_graphics(ctx);
+}
+
 
 
 
@@ -41,7 +77,6 @@ vector<string> file_scene::load_file(const string& filename)
     while (std::getline(stream, line))
     {
         result.push_back(line);
-        cout << "got line: " << line << endl;
     }
 
     stream.close();
@@ -63,6 +98,8 @@ void file_scene::load_graphics(drawing_context* ctx)
                 ctx->get_texture(*iter);
             }
     }
+
+    this->set_graphics_loaded();
 }
 
 

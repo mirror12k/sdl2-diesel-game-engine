@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "entity.hpp"
 #include "context.hpp"
 #include "graphics.hpp"
 
@@ -16,11 +17,24 @@ namespace diesel
 
 
 
-class scene
+class scene : public entity
 {
+private:
+    bool graphics_loaded = false;
+    bool entities_loaded = false;
 public:
+
+    bool is_drawn () const;
+
     virtual void load_graphics(drawing_context* ctx);
     virtual void load_entities(update_context* ctx);
+
+    void set_graphics_loaded(bool graphics_loaded=true);
+    void set_entities_loaded(bool entities_loaded=true);
+
+    virtual void update(update_context* ctx);
+    virtual void draw(drawing_context* ctx);
+
 };
 
 
