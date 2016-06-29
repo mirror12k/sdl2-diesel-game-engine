@@ -19,6 +19,11 @@ public:
     {
         printf("lol hello\n");
     }
+
+    virtual void load_dynamic(const diesel::dynamic_object_value& args)
+    {
+        printf("i'm loaded dynamicly!\n");
+    }
 };
 
 
@@ -89,6 +94,13 @@ int main ()
 //
 //    SDL_Delay(1000);
 //    SDL_Delay(1000);
+
+
+    diesel::dynamic_loader loader;
+    loader.register_class("test_entity", new diesel::dynamic_class_instantiator<test_entity>());
+
+    diesel::entity* ent = loader.load("test_entity", diesel::dynamic_object_value());
+    printf("got ent: %x\n", ent);
 
     diesel::dynamic_value dval(15);
 

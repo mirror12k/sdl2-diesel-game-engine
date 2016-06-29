@@ -22,6 +22,7 @@ class drawing_context;
 class entity
 {
 public:
+    virtual ~entity();
 
     virtual bool is_drawn () const;
 
@@ -39,7 +40,7 @@ private:
     list<entity*> to_remove_pool;
 
 public:
-    ~entity_pool();
+    virtual ~entity_pool();
 
 
     void update (update_context* ctx);

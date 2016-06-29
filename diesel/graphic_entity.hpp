@@ -4,12 +4,14 @@
 #include "entity.hpp"
 #include "context.hpp"
 
+#include "dynamic_loading.hpp"
+
 namespace diesel
 {
 
 
 
-class graphic_entity : public entity
+class graphic_entity : public dynamicly_loadable_entity
 {
 private:
     named_sprite sprite;

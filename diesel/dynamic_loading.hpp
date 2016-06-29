@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <map>
-using std::map;
 
-#include <string>
-using std::string;
 
-#include <exception>
-using std::exception;
+#include "entity.hpp"
+#include "dynamic_values.hpp"
+
+
+//#include <map>
+//using std::map;
 
 
 
@@ -16,58 +16,56 @@ namespace diesel
 {
 
 
-enum dynamic_value_type
-{
-    DYNAMIC_VALUE_INT,
-    DYNAMIC_VALUE_FLOAT,
-    DYNAMIC_VALUE_STRING,
-    DYNAMIC_VALUE_REF,
-};
 
-
-class dynamic_value_exception : public exception
+class dynamicly_loadable_entity : public entity
 {
 public:
-    dynamic_value_exception(dynamic_value_type expected, dynamic_value_type received);
-    ~dynamic_value_exception();
-
-    const char* dynamic_type_to_string(dynamic_value_type type);
-    const char* what() const noexcept;
-
-    const dynamic_value_type expected, received;
-
-private:
-    const char* msg;
+    virtual void load_dynamic(const dynamic_object_value& args);
 };
 
 
+template <class type>
+class dynamic_class_instantiator
+{
+public:
+    dynamicly_loadable_entity* instantiate(const dynamic_object_value& args) const;
+};
 
-class dynamic_value
+
+class dynamic_loader
 {
 private:
-    int value_int;
-    float value_float;
-    string value_string;
-    void* value_ref;
+    map<string, dynamic_class_instantiator<dynamicly_loadable_entity>*> registry;
 public:
-    const dynamic_value_type type;
-
-    dynamic_value(int value_int);
-    dynamic_value(float value_float);
-    dynamic_value(const string& value_string);
-    dynamic_value(void* value_ref);
-
-    int as_int () const;
-    int as_float () const;
-    string as_string () const;
-    void* as_ref () const;
-
+    template <class type>
+    void register_class(const string& classname, dynamic_class_instantiator<type>* instantiator);
+    dynamicly_loadable_entity* load(const string& classname, const dynamic_object_value& args);
 };
 
 
-typedef map<string, dynamic_value> dynamic_object_value;
+
+
+
+
+
+template <class type>
+dynamicly_loadable_entity* dynamic_class_instantiator<type>::instantiate(const dynamic_object_value& args) const
+{
+    dynamicly_loadable_entity* instance = new type();
+    instance->load_dynamic(args);
+    return instance;
+}
+
+
+template <class type>
+void dynamic_loader::register_class(const string& classname, dynamic_class_instantiator<type>* instantiator)
+{
+    this->registry[classname] = (dynamic_class_instantiator<dynamicly_loadable_entity>*)instantiator;
+}
+
 
 
 }
+
 
 

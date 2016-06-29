@@ -6,6 +6,8 @@ namespace diesel
 {
 
 
+entity::~entity()
+{}
 
 bool entity::is_drawn () const
 {
