@@ -20,6 +20,22 @@ bool scene::is_drawn () const
 }
 
 
+void scene::set_update_context(update_context* ctx)
+{
+    this->new_entities = ctx;
+}
+update_context* scene::get_update_context() const
+{
+    return this->new_entities;
+}
+
+bool scene::is_ready() const
+{
+    return this->graphics_loaded && this->entities_loaded;
+}
+
+
+
 // placeholder functions for when a scene doesn't require any loading
 void scene::load_graphics(drawing_context* ctx)
 {
@@ -44,7 +60,7 @@ void scene::set_entities_loaded(bool entities_loaded)
 void scene::update(update_context* ctx)
 {
     if (not this->entities_loaded)
-        this->load_entities(ctx);
+        this->load_entities(this->new_entities);
     else if (this->entities_loaded && this->graphics_loaded)
         ctx->remove_entity(this);
 }

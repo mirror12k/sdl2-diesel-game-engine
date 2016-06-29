@@ -22,9 +22,17 @@ class scene : public entity
 private:
     bool graphics_loaded = false;
     bool entities_loaded = false;
+
+    update_context* new_entities;
+
 public:
 
     bool is_drawn () const;
+
+    void set_update_context(update_context* ctx);
+    update_context* get_update_context() const;
+
+    bool is_ready() const;
 
     virtual void load_graphics(drawing_context* ctx);
     virtual void load_entities(update_context* ctx);

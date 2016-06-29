@@ -13,12 +13,14 @@ namespace diesel
 class game
 {
 private:
-    update_context entity_data;
+    update_context* entity_data;
     drawing_context graphics;
 
     bool running = false;
     int fps;
     int frame_delay;
+
+    scene* loading_scene = nullptr;
 
 public:
     game(char* window_title, int window_width, int window_height, int fps);
@@ -27,6 +29,7 @@ public:
 
     void run();
     void load_scene(scene* scene);
+    void start_scene(scene* scene);
 
     void set_running(bool running);
 

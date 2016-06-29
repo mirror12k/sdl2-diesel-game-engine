@@ -29,6 +29,12 @@ void update_context::remove_entity(entity* ent)
         this->undrawn_pool.remove_entity(ent);
 }
 
+void update_context::remove_all()
+{
+    this->drawn_pool.remove_all();
+    this->undrawn_pool.remove_all();
+}
+
 
 void update_context::update ()
 {

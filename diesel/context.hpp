@@ -21,6 +21,7 @@ public:
 
     void add_entity (entity* ent);
     void remove_entity (entity* ent);
+    void remove_all();
 
     void update ();
     void draw (drawing_context* ctx);
