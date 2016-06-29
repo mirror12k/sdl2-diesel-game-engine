@@ -58,6 +58,10 @@ const char* dynamic_value_exception::what() const noexcept
 
 
 
+dynamic_value::dynamic_value()
+: type(DYNAMIC_VALUE_NONE)
+{}
+
 dynamic_value::dynamic_value(int value_int)
 : type(DYNAMIC_VALUE_INT)
 {
@@ -78,6 +82,15 @@ dynamic_value::dynamic_value(void* value_ref)
 {
     this->value_ref = value_ref;
 }
+
+
+
+dynamic_value_type dynamic_value::get_type() const
+{
+    return this->type;
+}
+
+
 
 int dynamic_value::as_int () const
 {
@@ -107,6 +120,7 @@ void* dynamic_value::as_ref () const
 
     return this->value_ref;
 }
+
 
 
 

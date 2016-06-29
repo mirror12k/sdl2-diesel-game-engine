@@ -23,6 +23,8 @@ public:
     virtual void load_dynamic(const diesel::dynamic_object_value& args)
     {
         printf("i'm loaded dynamicly!\n");
+        printf("my name is '%s'\n", args.at("name").as_string().c_str());
+        printf("i have %d health\n", args.at("val").as_int() + 20);
     }
 };
 
@@ -99,19 +101,19 @@ int main ()
     diesel::dynamic_loader loader;
     loader.register_class("test_entity", new diesel::dynamic_class_instantiator<test_entity>());
 
-    diesel::entity* ent = loader.load("asdf", diesel::dynamic_object_value());
-    printf("got ent: %x\n", ent);
+//    diesel::entity* ent = loader.load("asdf", diesel::dynamic_object_value());
+//    printf("got ent: %x\n", ent);
 
     diesel::dynamic_value dval(15);
 
     dval.as_int();
 
-
-    diesel::file_scene scn("asdf", "qwerty");
-    scn.load_file(".gitignore");
+//
+//    diesel::file_scene scn("asdf", "qwerty");
+//    scn.load_file(".gitignore");
 
     diesel::game game ("lol test", 800, 640, 30);
-    game.load_scene(new diesel::file_scene("load_sprites.lst", ""));
+    game.load_scene(new diesel::file_scene("load_sprites.lst", "load_entities.ent", &loader));
     game.run();
 
     return 0;

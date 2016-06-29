@@ -18,6 +18,7 @@ namespace diesel
 
 enum dynamic_value_type
 {
+    DYNAMIC_VALUE_NONE,
     DYNAMIC_VALUE_INT,
     DYNAMIC_VALUE_FLOAT,
     DYNAMIC_VALUE_STRING,
@@ -49,13 +50,17 @@ private:
     float value_float;
     string value_string;
     void* value_ref;
+    dynamic_value_type type;
 public:
-    const dynamic_value_type type;
 
+    dynamic_value();
+    dynamic_value(const dynamic_value& other);
     dynamic_value(int value_int);
     dynamic_value(float value_float);
     dynamic_value(const string& value_string);
     dynamic_value(void* value_ref);
+
+    dynamic_value_type get_type() const;
 
     int as_int () const;
     int as_float () const;

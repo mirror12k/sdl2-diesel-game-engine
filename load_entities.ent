@@ -1,0 +1,4 @@
+
+# my cool entities:
+test_entity(val=15, name="asdf")
+test_entity(val=30, name="qwerty")
