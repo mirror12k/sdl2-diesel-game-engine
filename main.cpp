@@ -99,7 +99,7 @@ int main ()
     diesel::dynamic_loader loader;
     loader.register_class("test_entity", new diesel::dynamic_class_instantiator<test_entity>());
 
-    diesel::entity* ent = loader.load("test_entity", diesel::dynamic_object_value());
+    diesel::entity* ent = loader.load("asdf", diesel::dynamic_object_value());
     printf("got ent: %x\n", ent);
 
     diesel::dynamic_value dval(15);

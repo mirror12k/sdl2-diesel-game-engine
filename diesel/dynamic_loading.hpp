@@ -17,6 +17,25 @@ namespace diesel
 
 
 
+
+class dynamic_loading_exception : public exception
+{
+public:
+    dynamic_loading_exception(const char* reason);
+    ~dynamic_loading_exception();
+
+    const char* what() const noexcept;
+
+private:
+    const char* msg;
+};
+
+
+
+
+
+
+
 class dynamicly_loadable_entity : public entity
 {
 public:
@@ -28,7 +47,7 @@ template <class type>
 class dynamic_class_instantiator
 {
 public:
-    dynamicly_loadable_entity* instantiate(const dynamic_object_value& args) const;
+    virtual dynamicly_loadable_entity* instantiate(const dynamic_object_value& args) const;
 };
 
 
