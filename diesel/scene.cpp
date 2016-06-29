@@ -133,8 +133,8 @@ void file_scene::load_entities(update_context* ctx)
         for (vector<string>::const_iterator iter = lines.begin(), iter_end = lines.end(); iter != iter_end; iter++)
             if ((iter->length() > 0) && (iter->at(0) != '#'))
             {
-//                ctx->add_entity(this->load_entity(*iter));
-                this->load_entity(*iter);
+                ctx->add_entity(this->load_entity(*iter));
+//                this->load_entity(*iter);
             }
     }
 

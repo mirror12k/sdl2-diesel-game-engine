@@ -13,7 +13,7 @@ namespace diesel
 
 class graphic_entity : public dynamicly_loadable_entity
 {
-private:
+protected:
     named_sprite sprite;
 public:
     graphic_entity(string filename, int x, int y);

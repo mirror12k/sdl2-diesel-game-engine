@@ -17,14 +17,16 @@ public:
 
     void update (diesel::update_context* ctx)
     {
-        printf("lol hello\n");
+//        printf("lol hello\n");
     }
 
     virtual void load_dynamic(const diesel::dynamic_object_value& args)
     {
-        printf("i'm loaded dynamicly!\n");
-        printf("my name is '%s'\n", args.at("name").as_string().c_str());
-        printf("i have %d health\n", args.at("val").as_int() + 20);
+//        printf("i'm loaded dynamicly!\n");
+//        printf("my name is '%s'\n", args.at("name").as_string().c_str());
+//        printf("i have %d health\n", args.at("val").as_int() + 20);
+        this->sprite.rect.x = args.at("x").as_int();
+        this->sprite.rect.y = args.at("y").as_int();
     }
 };
 

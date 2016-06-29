@@ -1,4 +1,4 @@
 
 # my cool entities:
-test_entity(val=15, name="asdf")
-test_entity(val=30, name="qwerty")
+test_entity(val=15, name="asdf", x=5, y=20)
+test_entity(val=30, name="qwerty", x=-15, y=40)
