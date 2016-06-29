@@ -5,6 +5,7 @@
 #include "diesel/context.hpp"
 #include "diesel/graphic_entity.hpp"
 #include "diesel/game.hpp"
+#include "diesel/dynamic_loading.hpp"
 
 
 class test_entity : public diesel::graphic_entity
@@ -87,6 +88,11 @@ int main ()
 //
 //    SDL_Delay(1000);
 //    SDL_Delay(1000);
+
+    diesel::dynamic_value dval(15);
+
+    dval.as_int();
+    dval.as_ref();
 
     diesel::game game ("lol test", 800, 640, 30);
     game.run();
