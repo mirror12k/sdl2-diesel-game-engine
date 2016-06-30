@@ -8,6 +8,8 @@
 #include "diesel/dynamic_loading.hpp"
 #include "diesel/scene.hpp"
 
+#include "diesel/service.hpp"
+
 
 class test_entity : public diesel::graphic_entity
 {
