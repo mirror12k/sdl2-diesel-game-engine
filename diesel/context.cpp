@@ -8,6 +8,9 @@ namespace diesel
 
 void update_context::add_entity(entity* ent)
 {
+    if (service* srv = dynamic_cast<service*>(ent))
+        this->active_services[srv->get_service_name()] = srv;
+
     if (ent->is_drawn())
     {
         printf("drawn pool\n");
@@ -23,6 +26,9 @@ void update_context::add_entity(entity* ent)
 
 void update_context::remove_entity(entity* ent)
 {
+    if (service* srv = dynamic_cast<service*>(ent))
+        this->active_services.erase(this->active_services.find(srv->get_service_name()));
+
     if (ent->is_drawn())
         this->drawn_pool.remove_entity(ent);
     else

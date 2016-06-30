@@ -144,8 +144,8 @@ void file_scene::load_entities(update_context* ctx)
 
 entity* file_scene::load_entity(const string& entity_string)
 {
-    int offset = 0;
-    int found = entity_string.find("(");
+    uint offset = 0;
+    uint found = entity_string.find("(");
     if (found == string::npos)
         throw dynamic_loading_exception(("missing '(' token: ["+entity_string+"]").c_str());
 
@@ -173,7 +173,7 @@ dynamic_value file_scene::parse_args(const string& args_string)
 {
     dynamic_value args;
 
-    int offset = 0;
+    uint offset = 0;
     int found = args_string.find(",");
     while (found != string::npos)
     {
@@ -199,7 +199,7 @@ dynamic_value file_scene::parse_args(const string& args_string)
 
 void file_scene::parse_arg(dynamic_value& args, const string& arg_string)
 {
-    int found = arg_string.find("=");
+    uint found = arg_string.find("=");
     if (found == string::npos)
         throw dynamic_loading_exception(("missing '=' token: ["+arg_string+"]").c_str());
 
