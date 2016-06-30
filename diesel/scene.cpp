@@ -158,20 +158,20 @@ entity* file_scene::load_entity(const string& entity_string)
 
     string args_string = entity_string.substr(offset, found - offset);
 
-    dynamic_object_value args = this->parse_args(args_string);
+    dynamic_value args = this->parse_args(args_string);
 
     cout << "classname: " << classname << ", args: " << args_string << endl;
-    for (dynamic_object_value::iterator iter = args.begin(), iter_end = args.end(); iter != iter_end; iter++)
-    {
-        cout << iter->first << " => " << iter->second.get_type() << endl;
-    }
+//    for (dynamic_value::iterator iter = args.begin(), iter_end = args.end(); iter != iter_end; iter++)
+//    {
+//        cout << iter->first << " => " << iter->second.get_type() << endl;
+//    }
 
     return this->loader->load(classname, args);
 }
 
-dynamic_object_value file_scene::parse_args(const string& args_string)
+dynamic_value file_scene::parse_args(const string& args_string)
 {
-    dynamic_object_value args;
+    dynamic_value args;
 
     int offset = 0;
     int found = args_string.find(",");
@@ -197,14 +197,14 @@ dynamic_object_value file_scene::parse_args(const string& args_string)
 }
 
 
-void file_scene::parse_arg(dynamic_object_value& args, const string& arg_string)
+void file_scene::parse_arg(dynamic_value& args, const string& arg_string)
 {
     int found = arg_string.find("=");
     if (found == string::npos)
         throw dynamic_loading_exception(("missing '=' token: ["+arg_string+"]").c_str());
 
     dynamic_value val = this->parse_val(arg_string.substr(found + 1));
-    args[arg_string.substr(0, found)] = val;
+    args.set(arg_string.substr(0, found), val);
 }
 
 

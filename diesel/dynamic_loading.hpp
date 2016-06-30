@@ -39,7 +39,7 @@ private:
 class dynamicly_loadable_entity : public entity
 {
 public:
-    virtual void load_dynamic(const dynamic_object_value& args);
+    virtual void load_dynamic(const dynamic_value& args);
 };
 
 
@@ -47,7 +47,7 @@ template <class type>
 class dynamic_class_instantiator
 {
 public:
-    virtual dynamicly_loadable_entity* instantiate(const dynamic_object_value& args) const;
+    virtual dynamicly_loadable_entity* instantiate(const dynamic_value& args) const;
 };
 
 
@@ -58,7 +58,7 @@ private:
 public:
     template <class type>
     void register_class(const string& classname, dynamic_class_instantiator<type>* instantiator);
-    dynamicly_loadable_entity* load(const string& classname, const dynamic_object_value& args);
+    dynamicly_loadable_entity* load(const string& classname, const dynamic_value& args);
 };
 
 
@@ -68,7 +68,7 @@ public:
 
 
 template <class type>
-dynamicly_loadable_entity* dynamic_class_instantiator<type>::instantiate(const dynamic_object_value& args) const
+dynamicly_loadable_entity* dynamic_class_instantiator<type>::instantiate(const dynamic_value& args) const
 {
     dynamicly_loadable_entity* instance = new type();
     instance->load_dynamic(args);

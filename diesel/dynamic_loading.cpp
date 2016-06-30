@@ -29,12 +29,12 @@ const char* dynamic_loading_exception::what() const noexcept
 
 
 
-void dynamicly_loadable_entity::load_dynamic(const dynamic_object_value& args)
+void dynamicly_loadable_entity::load_dynamic(const dynamic_value& args)
 {}
 
 
 
-dynamicly_loadable_entity* dynamic_loader::load(const string& classname, const dynamic_object_value& args)
+dynamicly_loadable_entity* dynamic_loader::load(const string& classname, const dynamic_value& args)
 {
     if (this->registry.find(classname) == this->registry.end())
         throw dynamic_loading_exception(("attempt to load unknown dynamic class [" + classname + "]").c_str());

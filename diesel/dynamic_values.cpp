@@ -59,7 +59,7 @@ const char* dynamic_value_exception::what() const noexcept
 
 
 dynamic_value::dynamic_value()
-: type(DYNAMIC_VALUE_NONE)
+: type(DYNAMIC_VALUE_OBJECT)
 {}
 
 dynamic_value::dynamic_value(int value_int)
@@ -121,6 +121,52 @@ void* dynamic_value::as_ref () const
     return this->value_ref;
 }
 
+
+
+template <>
+int dynamic_value::at<int> (const string& key) const
+{
+    if (this->type != DYNAMIC_VALUE_OBJECT)
+        throw dynamic_value_exception(DYNAMIC_VALUE_OBJECT, this->type);
+
+    return this->value_object.at(key).as_int();
+}
+
+template <>
+float dynamic_value::at<float> (const string& key) const
+{
+    if (this->type != DYNAMIC_VALUE_OBJECT)
+        throw dynamic_value_exception(DYNAMIC_VALUE_OBJECT, this->type);
+
+    return this->value_object.at(key).as_float();
+}
+
+template <>
+string dynamic_value::at<string> (const string& key) const
+{
+    if (this->type != DYNAMIC_VALUE_OBJECT)
+        throw dynamic_value_exception(DYNAMIC_VALUE_OBJECT, this->type);
+
+    return this->value_object.at(key).as_string();
+}
+
+template <>
+void* dynamic_value::at<void*> (const string& key) const
+{
+    if (this->type != DYNAMIC_VALUE_OBJECT)
+        throw dynamic_value_exception(DYNAMIC_VALUE_OBJECT, this->type);
+
+    return this->value_object.at(key).as_ref();
+}
+
+
+void dynamic_value::set (const string& key, const dynamic_value& val)
+{
+    if (this->type != DYNAMIC_VALUE_OBJECT)
+        throw dynamic_value_exception(DYNAMIC_VALUE_OBJECT, this->type);
+
+    this->value_object[key] = val;
+}
 
 
 

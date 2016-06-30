@@ -11,22 +11,45 @@
 
 class test_entity : public diesel::graphic_entity
 {
+private:
+    int velocity_x = 4, velocity_y = 4;
 public:
     test_entity() : diesel::graphic_entity("tetris_grey_block.png", 20, 20)
     {}
 
     void update (diesel::update_context* ctx)
     {
-//        printf("lol hello\n");
+        if (this->velocity_x > 0)
+        {
+            this->sprite.rect.x += this->velocity_x;
+            if (this->sprite.rect.x >= 800)
+                this->velocity_x = -this->velocity_x;
+        }
+        else
+        {
+            this->sprite.rect.x += this->velocity_x;
+            if (this->sprite.rect.x <= 0)
+                this->velocity_x = -this->velocity_x;
+        }
+
+        if (this->velocity_y > 0)
+        {
+            this->sprite.rect.y += this->velocity_y;
+            if (this->sprite.rect.y >= 640)
+                this->velocity_y = -this->velocity_y;
+        }
+        else
+        {
+            this->sprite.rect.y += this->velocity_y;
+            if (this->sprite.rect.y <= 0)
+                this->velocity_y = -this->velocity_y;
+        }
     }
 
-    virtual void load_dynamic(const diesel::dynamic_object_value& args)
+    virtual void load_dynamic(const diesel::dynamic_value& args)
     {
-//        printf("i'm loaded dynamicly!\n");
-//        printf("my name is '%s'\n", args.at("name").as_string().c_str());
-//        printf("i have %d health\n", args.at("val").as_int() + 20);
-        this->sprite.rect.x = args.at("x").as_int();
-        this->sprite.rect.y = args.at("y").as_int();
+        this->sprite.rect.x = args.at<int>("x");
+        this->sprite.rect.y = args.at<int>("y");
     }
 };
 

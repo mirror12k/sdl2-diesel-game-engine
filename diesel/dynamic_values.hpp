@@ -19,10 +19,13 @@ namespace diesel
 enum dynamic_value_type
 {
     DYNAMIC_VALUE_NONE,
+
     DYNAMIC_VALUE_INT,
     DYNAMIC_VALUE_FLOAT,
     DYNAMIC_VALUE_STRING,
     DYNAMIC_VALUE_REF,
+
+    DYNAMIC_VALUE_OBJECT,
 };
 
 
@@ -46,15 +49,16 @@ private:
 class dynamic_value
 {
 private:
+    dynamic_value_type type;
     int value_int;
     float value_float;
     string value_string;
     void* value_ref;
-    dynamic_value_type type;
-public:
 
+    map<string, dynamic_value> value_object;
+
+public:
     dynamic_value();
-    dynamic_value(const dynamic_value& other);
     dynamic_value(int value_int);
     dynamic_value(float value_float);
     dynamic_value(const string& value_string);
@@ -67,10 +71,14 @@ public:
     string as_string () const;
     void* as_ref () const;
 
+    template <typename T>
+    T at (const string& key) const;
+    void set (const string& key, const dynamic_value& val);
+
 };
 
 
-typedef map<string, dynamic_value> dynamic_object_value;
+
 
 
 }

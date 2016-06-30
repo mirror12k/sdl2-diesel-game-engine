@@ -63,8 +63,8 @@ public:
     virtual void load_entities(update_context* ctx);
 
     entity* load_entity(const string& entity_string);
-    dynamic_object_value parse_args(const string& args_string);
-    void parse_arg(dynamic_object_value& args, const string& arg_string);
+    dynamic_value parse_args(const string& args_string);
+    void parse_arg(dynamic_value& args, const string& arg_string);
     dynamic_value parse_val(const string& val_string);
 };
 
