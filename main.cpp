@@ -56,6 +56,35 @@ public:
 };
 
 
+
+class test_service : public diesel::service
+{
+public:
+    test_service() : diesel::service("service::test_service")
+    {}
+    void test_print(int val)
+    {
+        printf("lol: %d\n", val);
+    }
+};
+
+
+class test_user : public diesel::dynamicly_loadable_entity
+{
+private:
+    int counter = 0;
+public:
+    void update(diesel::update_context* ctx)
+    {
+        test_service* srv = ctx->get_service<test_service>("service::test_service");
+        srv->test_print(this->counter++);
+    }
+};
+
+
+
+
+
 int main ()
 {
     printf("hello world!\n");
@@ -126,7 +155,12 @@ int main ()
 
 
     diesel::dynamic_loader loader;
-    loader.register_class("test_entity", new diesel::dynamic_class_instantiator<test_entity>());
+    loader.register_class<test_entity>("test_entity");
+    loader.register_class<test_service>("test_service");
+    loader.register_class<test_user>("test_user");
+//    loader.register_class("test_entity", new diesel::dynamic_class_instantiator<test_entity>());
+//    loader.register_class("test_service", new diesel::dynamic_class_instantiator<test_service>());
+//    loader.register_class("test_user", new diesel::dynamic_class_instantiator<test_user>());
 
 //    diesel::entity* ent = loader.load("asdf", diesel::dynamic_object_value());
 //    printf("got ent: %x\n", ent);

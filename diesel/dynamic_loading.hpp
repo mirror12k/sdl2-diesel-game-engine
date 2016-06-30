@@ -57,7 +57,7 @@ private:
     map<string, dynamic_class_instantiator<dynamicly_loadable_entity>*> registry;
 public:
     template <class type>
-    void register_class(const string& classname, dynamic_class_instantiator<type>* instantiator);
+    void register_class(const string& classname);
     dynamicly_loadable_entity* load(const string& classname, const dynamic_value& args);
 };
 
@@ -77,9 +77,9 @@ dynamicly_loadable_entity* dynamic_class_instantiator<type>::instantiate(const d
 
 
 template <class type>
-void dynamic_loader::register_class(const string& classname, dynamic_class_instantiator<type>* instantiator)
+void dynamic_loader::register_class(const string& classname)
 {
-    this->registry[classname] = (dynamic_class_instantiator<dynamicly_loadable_entity>*)instantiator;
+    this->registry[classname] = (dynamic_class_instantiator<dynamicly_loadable_entity>*)(new dynamic_class_instantiator<type>());
 }
 
 

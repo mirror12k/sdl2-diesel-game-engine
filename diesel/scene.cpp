@@ -173,6 +173,9 @@ dynamic_value file_scene::parse_args(const string& args_string)
 {
     dynamic_value args;
 
+    if (args_string.length() == 0)
+        return args;
+
     uint offset = 0;
     int found = args_string.find(",");
     while (found != string::npos)
