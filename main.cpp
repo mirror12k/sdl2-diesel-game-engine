@@ -16,7 +16,7 @@ class test_entity : public diesel::graphic_entity
 private:
     int velocity_x = 4, velocity_y = 4;
 public:
-    test_entity() : diesel::graphic_entity("tetris_grey_block.png", 20, 20)
+    test_entity() : diesel::graphic_entity("assets/character_idle.png", 40, 40)
     {}
 
     void update (diesel::update_context* ctx)
@@ -111,7 +111,7 @@ public:
 class test_shaker : public diesel::graphic_entity
 {
 public:
-    test_shaker() : diesel::graphic_entity("tetris_grey_block.png", 20, 20)
+    test_shaker() : diesel::graphic_entity("assets/tetris_grey_block.png", 20, 20)
     {}
 
     void on_added(diesel::update_context* ctx)
@@ -227,7 +227,7 @@ int main ()
 //    scn.load_file(".gitignore");
 
     diesel::game game ("lol test", 800, 640, 30);
-    game.load_scene(new diesel::file_scene("load_sprites.lst", "load_entities.ent", &loader));
+    game.load_scene(new diesel::file_scene("assets/load_sprites.lst", "assets/load_entities.ent", &loader));
     game.run();
 
     return 0;

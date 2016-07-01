@@ -51,6 +51,19 @@ public:
 };
 
 
+
+template <class type>
+dynamicly_loadable_entity* dynamic_class_instantiator<type>::instantiate(const dynamic_value& args) const
+{
+    dynamicly_loadable_entity* instance = new type();
+    instance->load_dynamic(args);
+    return instance;
+}
+
+
+
+
+
 class dynamic_loader
 {
 private:
@@ -61,19 +74,6 @@ public:
     dynamicly_loadable_entity* load(const string& classname, const dynamic_value& args);
 };
 
-
-
-
-
-
-
-template <class type>
-dynamicly_loadable_entity* dynamic_class_instantiator<type>::instantiate(const dynamic_value& args) const
-{
-    dynamicly_loadable_entity* instance = new type();
-    instance->load_dynamic(args);
-    return instance;
-}
 
 
 template <class type>

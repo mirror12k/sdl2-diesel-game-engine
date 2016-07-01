@@ -82,6 +82,7 @@ void drawing_context::start_graphics()
 
     this->screen = SDL_GetWindowSurface(this->window);
     this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
+//    SDL_SetRenderDrawBlendMode(this->renderer, SDL_BLENDMODE_BLEND);
 }
 
 void drawing_context::end_graphics()
@@ -126,9 +127,10 @@ SDL_Surface* drawing_context::load_surface(const string& filename)
 
 SDL_Texture* drawing_context::load_texture(const string& filename)
 {
-    SDL_Surface* surf = this->load_surface(filename);
-    SDL_Texture* tex = this->surface_to_texture(surf);
-    SDL_FreeSurface(surf);
+    SDL_Texture* tex = IMG_LoadTexture(this->renderer, filename.c_str());
+//    SDL_Surface* surf = this->load_surface(filename);
+//    SDL_Texture* tex = this->surface_to_texture(surf);
+//    SDL_FreeSurface(surf);
 
     return tex;
 }
@@ -160,6 +162,8 @@ SDL_Texture* drawing_context::get_texture(const string& filename)
 
 void drawing_context::draw_texture(SDL_Texture* tex, SDL_Rect* dst)
 {
+//    SDL_SetRenderDrawBlendMode(this->renderer, SDL_BLENDMODE_BLEND);
+//    SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
     SDL_RenderCopy(this->renderer, tex, nullptr, dst);
 }
 
