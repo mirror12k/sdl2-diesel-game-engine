@@ -82,6 +82,56 @@ public:
 };
 
 
+class test_physics : public diesel::iterating_entity_service<diesel::graphic_entity>
+{
+public:
+    int step = 0;
+    int vx = 4, vy = 4;
+
+    test_physics()
+    : diesel::iterating_entity_service<diesel::graphic_entity>("service::test_physics")
+    {}
+    void update(diesel::update_context* ctx)
+    {
+        this->diesel::iterating_entity_service<diesel::graphic_entity>::update(ctx);
+        if (++this->step == 30)
+        {
+            this->vx = -this->vx;
+            this->vy = -this->vy;
+            this->step = 0;
+        }
+    }
+    void process_entity(diesel::update_context* ctx, diesel::graphic_entity* ent)
+    {
+        ent->move(this->vx, this->vy);
+    }
+};
+
+
+class test_shaker : public diesel::graphic_entity
+{
+public:
+    test_shaker() : diesel::graphic_entity("tetris_grey_block.png", 20, 20)
+    {}
+
+    void on_added(diesel::update_context* ctx)
+    {
+        test_physics* srv = ctx->get_service<test_physics>("service::test_physics");
+        srv->register_entity(this);
+    }
+    void on_removed(diesel::update_context* ctx)
+    {
+        test_physics* srv = ctx->get_service<test_physics>("service::test_physics");
+        srv->unregister_entity(this);
+    }
+
+    virtual void load_dynamic(const diesel::dynamic_value& args)
+    {
+        this->sprite.rect.x = args.at<int>("x");
+        this->sprite.rect.y = args.at<int>("y");
+    }
+};
+
 
 
 
@@ -158,6 +208,9 @@ int main ()
     loader.register_class<test_entity>("test_entity");
     loader.register_class<test_service>("test_service");
     loader.register_class<test_user>("test_user");
+
+    loader.register_class<test_physics>("test_physics");
+    loader.register_class<test_shaker>("test_shaker");
 //    loader.register_class("test_entity", new diesel::dynamic_class_instantiator<test_entity>());
 //    loader.register_class("test_service", new diesel::dynamic_class_instantiator<test_service>());
 //    loader.register_class("test_user", new diesel::dynamic_class_instantiator<test_user>());

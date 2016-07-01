@@ -32,11 +32,18 @@ protected:
     list<entity_type*> registered_entites;
 
 public:
+    entity_service(const string& service_name);
+
     void register_entity(entity_type* ent);
     void unregister_entity(entity_type* ent);
 };
 
 
+
+template<class entity_type>
+entity_service<entity_type>::entity_service(const string& service_name)
+: service(service_name)
+{}
 
 template<class entity_type>
 void entity_service<entity_type>::register_entity(entity_type* ent)
@@ -63,22 +70,26 @@ template <class entity_type>
 class iterating_entity_service : public entity_service<entity_type>
 {
 public:
-    virtual void update(update_context* ctx);
+    iterating_entity_service(const string& service_name);
 
+    virtual void update(update_context* ctx);
     virtual void process_entity(update_context* ctx, entity_type* ent) = 0;
 };
 
 
+template<class entity_type>
+iterating_entity_service<entity_type>::iterating_entity_service(const string& service_name)
+: entity_service<entity_type>(service_name)
+{}
 
 
 
 template<class entity_type>
 void iterating_entity_service<entity_type>::update(update_context* ctx)
 {
-    if (this->update_entities)
-        for (typename list<entity_type*>::iterator iter = this->registered_entites.begin(), iter_end = this->registered_entites.end();
-                iter != iter_end; iter++)
-            this->process_entity(ctx, *iter);
+    for (typename list<entity_type*>::iterator iter = this->registered_entites.begin(), iter_end = this->registered_entites.end();
+            iter != iter_end; iter++)
+        this->process_entity(ctx, *iter);
 }
 
 

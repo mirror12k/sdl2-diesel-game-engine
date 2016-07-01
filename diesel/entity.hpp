@@ -28,6 +28,10 @@ public:
 
     virtual void update (update_context* ctx);
     virtual void draw (drawing_context* ctx);
+
+
+    virtual void on_added(update_context* ctx);
+    virtual void on_removed(update_context* ctx);
 };
 
 
@@ -38,6 +42,7 @@ class entity_pool : public entity
 private:
     list<entity*> entity_pool;
     list<entity*> to_remove_pool;
+    list<entity*> to_add_pool;
 
 public:
     virtual ~entity_pool();
@@ -48,7 +53,7 @@ public:
 
     // removes any entities from the pool which are scheduled for removal
     // called automatically at the start of update()
-    void update_removals ();
+    void update_removals (update_context* ctx);
 
     // adds a new entity to the entity pool
     void add_entity (entity* ent);

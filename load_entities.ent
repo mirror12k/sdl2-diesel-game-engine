@@ -4,3 +4,9 @@ test_service()
 test_entity(val=15, name="asdf", x=5, y=20)
 test_entity(val=30, name="qwerty", x=-15, y=40)
 test_user()
+
+
+test_physics()
+test_shaker(x=100, y=40)
+test_shaker(x=150, y=40)
+
