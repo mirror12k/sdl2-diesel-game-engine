@@ -33,7 +33,6 @@ public:
 
 
 
-
 class drawing_context
 {
 private:
@@ -66,6 +65,7 @@ public:
     void draw_sub_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst);
 
     void draw_sprite(named_sprite* sprite);
+    void draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y);
 
 };
 

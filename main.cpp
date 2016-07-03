@@ -111,7 +111,7 @@ public:
 class test_shaker : public diesel::graphic_entity
 {
 public:
-    test_shaker() : diesel::graphic_entity("assets/tetris_grey_block.png", 20, 20)
+    test_shaker() : diesel::graphic_entity("assets/character_idle.png", 40, 40)
     {}
 
     void on_added(diesel::update_context* ctx)

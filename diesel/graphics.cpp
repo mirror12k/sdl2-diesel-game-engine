@@ -52,9 +52,6 @@ void named_sprite::step_frame()
 
 
 
-
-
-
 drawing_context::drawing_context(char* window_title, int window_width, int window_height)
 : window_title(window_title), window_width(window_width), window_height(window_height)
 {}
@@ -181,6 +178,16 @@ void drawing_context::draw_sprite(named_sprite* sprite)
     this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &sprite->rect);
 }
 
+
+
+void drawing_context::draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y)
+{
+    SDL_Rect rect = sprite->sprite_rect;
+    rect.x = rect.w * tile_x;
+    rect.y = rect.h * tile_y;
+
+    this->draw_sub_texture(sprite->texture, &rect, dest);
+}
 
 
 
