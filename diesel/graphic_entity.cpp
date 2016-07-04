@@ -64,4 +64,24 @@ void tiled_entity::draw(drawing_context* ctx)
             }
 }
 
+
+void tiled_entity::load_data(const string& data)
+{
+    const uint8_t* source = (const uint8_t*)data.data();
+    for (int y = 0; y < this->array_y; y++)
+        for (int x = 0; x < this->array_x; x++)
+            if ((source[(y * this->array_x + x) * 2] == 0) && (source[(y * this->array_x + x) * 2 + 1] == 0))
+            {
+                this->tile_array[y][x].drawn = false;
+            }
+            else
+            {
+                this->tile_array[y][x].tile_x = source[(y * this->array_x + x) * 2];
+                this->tile_array[y][x].tile_y = source[(y * this->array_x + x) * 2 + 1];
+                this->tile_array[y][x].drawn = true;
+            }
+}
+
+
+
 }

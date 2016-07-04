@@ -28,7 +28,7 @@ public:
 
 typedef struct {
     bool drawn;
-    int tile_x, tile_y;
+    uint8_t tile_x, tile_y;
 } tile_entry;
 
 class tiled_entity : public graphic_entity
@@ -41,6 +41,8 @@ public:
     ~tiled_entity();
 
     virtual void draw(drawing_context* ctx);
+
+    void load_data(const string& data);
 };
 
 

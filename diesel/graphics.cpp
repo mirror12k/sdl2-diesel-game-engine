@@ -182,6 +182,10 @@ void drawing_context::draw_sprite(named_sprite* sprite)
 
 void drawing_context::draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y)
 {
+    if (sprite->texture == nullptr) {
+        sprite->texture = this->get_texture(sprite->filename);
+    }
+
     SDL_Rect rect = sprite->sprite_rect;
     rect.x = rect.w * tile_x;
     rect.y = rect.h * tile_y;
