@@ -2,13 +2,7 @@
 
 #include <stdio.h>
 
-#include "diesel/context.hpp"
-#include "diesel/graphic_entity.hpp"
-#include "diesel/game.hpp"
-#include "diesel/dynamic_loading.hpp"
-#include "diesel/scene.hpp"
-
-#include "diesel/service.hpp"
+#include "diesel/diesel.hpp"
 
 
 class test_entity : public diesel::graphic_entity
