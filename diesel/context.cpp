@@ -13,12 +13,10 @@ void update_context::add_entity(entity* ent)
 
     if (ent->is_drawn())
     {
-        printf("drawn pool\n");
         this->drawn_pool.add_entity(ent);
     }
     else
     {
-        printf("undrawn pool\n");
         this->undrawn_pool.add_entity(ent);
     }
 }

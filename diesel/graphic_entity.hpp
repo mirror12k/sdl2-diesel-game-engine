@@ -23,6 +23,7 @@ public:
     virtual void draw(drawing_context* ctx);
 
     void move(int deltax, int deltay);
+    void move_to(int x, int y);
 };
 
 
@@ -33,7 +34,7 @@ typedef struct {
 
 class tiled_entity : public graphic_entity
 {
-private:
+protected:
     tile_entry** tile_array;
     int array_x, array_y;
 public:
@@ -43,6 +44,8 @@ public:
     virtual void draw(drawing_context* ctx);
 
     void load_data(const string& data);
+
+    void set_value(int x, int y, uint8_t tile_x, uint8_t tile_y, bool drawn=true);
 };
 
 

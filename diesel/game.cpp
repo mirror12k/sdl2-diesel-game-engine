@@ -42,7 +42,7 @@ void game::run()
 
         if ((this->loading_scene != nullptr) && (this->loading_scene->is_ready()))
         {
-            printf("starting scene\n");
+//            printf("starting scene\n");
             this->start_scene(this->loading_scene);
             this->loading_scene = nullptr;
         }

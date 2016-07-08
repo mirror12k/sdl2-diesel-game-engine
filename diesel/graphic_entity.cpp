@@ -32,6 +32,12 @@ void graphic_entity::move(int deltax, int deltay)
 }
 
 
+void graphic_entity::move_to(int x, int y)
+{
+    this->sprite.rect.x = x;
+    this->sprite.rect.y = y;
+}
+
 
 
 
@@ -43,7 +49,8 @@ tiled_entity::tiled_entity(const string& filename, int width, int height, int ti
 : graphic_entity(filename, width, height, tilex, tiley), array_x(array_x), array_y(array_y)
 {
     this->tile_array = new tile_entry* [array_y];
-
+    for (int i = 0; i < array_y; i++)
+        this->tile_array[i] = new tile_entry [array_x];
 }
 
 tiled_entity::~tiled_entity()
@@ -82,6 +89,15 @@ void tiled_entity::load_data(const string& data)
             }
 }
 
+
+void tiled_entity::set_value(int x, int y, uint8_t tile_x, uint8_t tile_y, bool drawn)
+{
+    if ((x >= this->array_x) || (y >= this->array_y))
+        throw "error out of bounds";
+    this->tile_array[y][x].tile_x = tile_x;
+    this->tile_array[y][x].tile_y = tile_y;
+    this->tile_array[y][x].drawn = drawn;
+}
 
 
 }

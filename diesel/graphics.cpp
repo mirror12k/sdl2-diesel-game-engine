@@ -40,8 +40,14 @@ void named_sprite::step_frame()
     }
 }
 
+void named_sprite::set_frame(int frame)
+{
+    this->current_frame_x = frame % this->tiles_x;
+    this->current_frame_y = frame / this->tiles_x;
 
-
+    this->sprite_rect.x = this->sprite_rect.w * this->current_frame_x;
+    this->sprite_rect.y = this->sprite_rect.h * this->current_frame_y;
+}
 
 
 
@@ -129,6 +135,12 @@ SDL_Texture* drawing_context::load_texture(const string& filename)
 //    SDL_Texture* tex = this->surface_to_texture(surf);
 //    SDL_FreeSurface(surf);
 
+    if (tex == nullptr)
+    {
+        printf("image load error: %s\n", IMG_GetError());
+        exit(1);
+    }
+
     return tex;
 }
 
@@ -157,6 +169,18 @@ SDL_Texture* drawing_context::get_texture(const string& filename)
 
 
 
+
+void drawing_context::set_texture_alpha(SDL_Texture* tex, uint8_t alpha)
+{
+    if (SDL_SetTextureAlphaMod(tex, alpha) != 0)
+    {
+        printf("error setting sprite alpha: %s\n", SDL_GetError());
+        exit(1);
+    }
+}
+
+
+
 void drawing_context::draw_texture(SDL_Texture* tex, SDL_Rect* dst)
 {
 //    SDL_SetRenderDrawBlendMode(this->renderer, SDL_BLENDMODE_BLEND);
@@ -170,14 +194,54 @@ void drawing_context::draw_sub_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect
 }
 
 
+
+
+
 void drawing_context::draw_sprite(named_sprite* sprite)
 {
     if (sprite->texture == nullptr) {
         sprite->texture = this->get_texture(sprite->filename);
     }
+
     this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &sprite->rect);
 }
 
+void drawing_context::draw_sprite_alpha(named_sprite* sprite, uint8_t alpha)
+{
+    if (sprite->texture == nullptr) {
+        sprite->texture = this->get_texture(sprite->filename);
+    }
+
+    this->set_texture_alpha(sprite->texture, alpha);
+    this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &sprite->rect);
+    this->set_texture_alpha(sprite->texture, 255);
+}
+
+
+void drawing_context::draw_sprite_offset(named_sprite* sprite, int offsetx, int offsety)
+{
+    if (sprite->texture == nullptr) {
+        sprite->texture = this->get_texture(sprite->filename);
+    }
+    SDL_Rect dest = sprite->rect;
+    dest.x += offsetx;
+    dest.y += offsety;
+    this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &dest);
+}
+
+void drawing_context::draw_sprite_rect(named_sprite* sprite, int offsetx, int offsety)
+{
+    if (sprite->texture == nullptr) {
+        sprite->texture = this->get_texture(sprite->filename);
+    }
+    SDL_Rect dest;
+    dest.x = sprite->rect.x + offsetx;
+    dest.y = sprite->rect.y + offsety;
+    dest.w = sprite->sprite_rect.w;
+    dest.h = sprite->sprite_rect.h;
+
+    this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &dest);
+}
 
 
 void drawing_context::draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y)

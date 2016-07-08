@@ -50,6 +50,7 @@ class dynamic_value
 {
 private:
     dynamic_value_type type;
+
     int value_int;
     float value_float;
     string value_string;

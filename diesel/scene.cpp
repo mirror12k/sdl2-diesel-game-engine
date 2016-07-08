@@ -111,7 +111,7 @@ void file_scene::load_graphics(drawing_context* ctx)
         for (vector<string>::const_iterator iter = lines.begin(), iter_end = lines.end(); iter != iter_end; iter++)
             if ((iter->length() > 0) && (iter->at(0) != '#'))
             {
-                cout << "loading: " << *iter << endl;
+//                cout << "loading: " << *iter << endl;
                 ctx->get_texture(*iter);
             }
     }
@@ -160,7 +160,7 @@ entity* file_scene::load_entity(const string& entity_string)
 
     dynamic_value args = this->parse_args(args_string);
 
-    cout << "classname: " << classname << ", args: " << args_string << endl;
+//    cout << "classname: " << classname << ", args: " << args_string << endl;
 //    for (dynamic_value::iterator iter = args.begin(), iter_end = args.end(); iter != iter_end; iter++)
 //    {
 //        cout << iter->first << " => " << iter->second.get_type() << endl;
