@@ -12,3 +12,4 @@ test_shaker(x=150, y=40)
 test_shaker(x=120, y=50)
 test_shaker(x=110, y=30)
 
+my_box(x=150, y=34, width=40, height=10)

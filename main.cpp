@@ -127,6 +127,23 @@ public:
 };
 
 
+class my_box : public diesel::graphic_box
+{
+public:
+    my_box()
+    : graphic_box("assets/box_tiled.png", 10, 10, 10, 10)
+    {}
+
+    virtual void load_dynamic(const diesel::dynamic_value& args)
+    {
+        this->sprite.rect.x = args.at<int>("x");
+        this->sprite.rect.y = args.at<int>("y");
+        this->box_width = args.at<int>("width");
+        this->box_height = args.at<int>("height");
+    }
+};
+
+
 
 
 int main ()
@@ -205,6 +222,7 @@ int main ()
 
     loader.register_class<test_physics>("test_physics");
     loader.register_class<test_shaker>("test_shaker");
+    loader.register_class<my_box>("my_box");
 //    loader.register_class("test_entity", new diesel::dynamic_class_instantiator<test_entity>());
 //    loader.register_class("test_service", new diesel::dynamic_class_instantiator<test_service>());
 //    loader.register_class("test_user", new diesel::dynamic_class_instantiator<test_user>());
