@@ -55,6 +55,31 @@ void named_sprite::set_frame(int frame)
 
 
 
+named_font::named_font(const string& filename)
+: filename(filename)
+{}
+
+
+
+
+
+
+referenced_sprite::referenced_sprite(SDL_Texture* texture)
+: texture(texture)
+{}
+
+int referenced_sprite::reference()
+{
+    return ++this->reference_count;
+}
+
+int referenced_sprite::unreference()
+{
+    return --this->reference_count;
+}
+
+
+
 
 
 
@@ -86,10 +111,19 @@ void drawing_context::start_graphics()
     this->screen = SDL_GetWindowSurface(this->window);
     this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
 //    SDL_SetRenderDrawBlendMode(this->renderer, SDL_BLENDMODE_BLEND);
+
+
+    if (TTF_Init())
+    {
+        printf("failed to initialize SDL2 TTF: %s\n", TTF_GetError());
+        exit(1);
+    }
 }
 
 void drawing_context::end_graphics()
 {
+    TTF_Quit();
+
     SDL_DestroyWindow(this->window);
     this->window = nullptr;
     this->screen = nullptr;
@@ -258,6 +292,17 @@ void drawing_context::draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int
 }
 
 
+
+TTF_Font* drawing_context::load_ttf_font(const string& filename)
+{
+    TTF_Font* font = TTF_OpenFont(filename.c_str(), filename.size());
+    if (font == nullptr)
+    {
+        printf("error loading ttf font '%s': %s\n", filename.c_str(), TTF_GetError());
+        exit(1);
+    }
+    return font;
+}
 
 
 

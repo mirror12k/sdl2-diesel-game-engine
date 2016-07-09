@@ -16,6 +16,7 @@ using std::string;
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 namespace diesel
 {
@@ -36,6 +37,32 @@ public:
 
     void step_frame();
     void set_frame(int frame);
+};
+
+
+
+class named_font
+{
+public:
+    TTF_Font* font = nullptr;
+    string filename;
+
+    named_font(const string& filename);
+};
+
+
+class referenced_sprite
+{
+public:
+    SDL_Texture* texture;
+    uint reference_count = 0;
+
+    SDL_Rect sprite_rect, rect;
+
+    referenced_sprite(SDL_Texture* texture);
+
+    int reference();
+    int unreference();
 };
 
 
@@ -78,6 +105,8 @@ public:
     void draw_sprite_offset(named_sprite* sprite, int offsetx, int offsety);
     void draw_sprite_rect(named_sprite* sprite, int offsetx, int offsety);
     void draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y);
+
+    TTF_Font* load_ttf_font(const string& filename);
 
 };
 
