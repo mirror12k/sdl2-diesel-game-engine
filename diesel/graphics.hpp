@@ -11,6 +11,9 @@ using std::endl;
 #include <map>
 using std::map;
 
+#include <list>
+using std::list;
+
 #include <string>
 using std::string;
 
@@ -78,6 +81,8 @@ private:
     int window_width, window_height;
 
     map<string, SDL_Texture*> loaded_textures;
+    map<string, TTF_Font*> loaded_fonts;
+    list<referenced_sprite*> referenced_sprites;
 
 public:
     drawing_context(char* window_title, int window_width, int window_height);
@@ -107,6 +112,13 @@ public:
     void draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y);
 
     TTF_Font* load_ttf_font(const string& filename);
+    TTF_Font* get_font(const string& filename);
+
+    void load_named_font(named_font* font);
+
+    referenced_sprite* render_font_text(named_font* font, const string& text, const SDL_Color& color = {0, 0, 0});
+
+    referenced_sprite* create_referenced_sprite(SDL_Texture* tex);
 
 };
 

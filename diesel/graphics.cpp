@@ -280,9 +280,8 @@ void drawing_context::draw_sprite_rect(named_sprite* sprite, int offsetx, int of
 
 void drawing_context::draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y)
 {
-    if (sprite->texture == nullptr) {
+    if (sprite->texture == nullptr)
         sprite->texture = this->get_texture(sprite->filename);
-    }
 
     SDL_Rect rect = sprite->sprite_rect;
     rect.x = rect.w * tile_x;
@@ -302,6 +301,64 @@ TTF_Font* drawing_context::load_ttf_font(const string& filename)
         exit(1);
     }
     return font;
+}
+
+TTF_Font* drawing_context::get_font(const string& filename)
+{
+    map<string, TTF_Font*>::iterator result = this->loaded_fonts.find(filename);
+    if (result == this->loaded_fonts.end())
+    {
+        TTF_Font* font = this->load_ttf_font(filename);
+        this->loaded_fonts[filename] = font;
+        return font;
+    }
+    else
+    {
+        return result->second;
+    }
+}
+
+
+void drawing_context::load_named_font(named_font* font)
+{
+    if (font->font)
+    {
+        return;
+    }
+    else
+    {
+        font->font = this->get_font(font->filename);
+    }
+}
+
+
+
+referenced_sprite* drawing_context::render_font_text(named_font* font, const string& text, const SDL_Color& color)
+{
+    this->load_named_font(font);
+
+    SDL_Surface* surf = TTF_RenderText_Blended(font->font, text.c_str(), color);
+    SDL_Texture* tex = this->surface_to_texture(surf);
+    referenced_sprite* sprite = this->create_referenced_sprite(tex);
+
+    sprite->sprite_rect.x = 0;
+    sprite->sprite_rect.y = 0;
+    sprite->sprite_rect.w = surf->w;
+    sprite->sprite_rect.h = surf->h;
+    sprite->rect = sprite->sprite_rect;
+
+    SDL_FreeSurface(surf);
+
+    return sprite;
+}
+
+
+
+referenced_sprite* drawing_context::create_referenced_sprite(SDL_Texture* tex)
+{
+    referenced_sprite* sprite = new referenced_sprite(tex);
+    this->referenced_sprites.push_back(sprite);
+    return sprite;
 }
 
 
