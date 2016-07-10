@@ -34,7 +34,7 @@ string dynamic_value_exception::dynamic_type_to_string(dynamic_value_type type)
     case DYNAMIC_VALUE_REF:
         return "DYNAMIC_VALUE_REF";
 
-    case DYNAMIC_VALUE_REF:
+    case DYNAMIC_VALUE_OBJECT:
         return "DYNAMIC_VALUE_OBJECT";
 
     default:

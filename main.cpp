@@ -4,6 +4,18 @@
 
 #include "diesel/diesel.hpp"
 
+#include "diesel/dynamic_entity_parser.hpp"
+
+
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+
+
+
+
 
 class test_entity : public diesel::graphic_entity
 {
@@ -268,17 +280,28 @@ int main ()
 //    diesel::entity* ent = loader.load("asdf", diesel::dynamic_object_value());
 //    printf("got ent: %x\n", ent);
 
-    diesel::dynamic_value dval(15);
 
-    dval.as_int();
 
+
+//    diesel::dynamic_value dval(15);
 //
-//    diesel::file_scene scn("asdf", "qwerty");
-//    scn.load_file(".gitignore");
+//    dval.as_int();
 
-    diesel::game game ("lol test", 800, 640, 30);
-    game.load_scene(new diesel::file_scene("assets/load_sprites.lst", "assets/load_entities.ent", &loader));
-    game.run();
+    diesel::dynamic_entity_lexer lexer ("=(,, , \
+    )");
+
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+
+
+//    diesel::game game ("lol test", 800, 640, 30);
+//    game.load_scene(new diesel::file_scene("assets/load_sprites.lst", "assets/load_entities.ent", &loader));
+//    game.run();
 
     return 0;
 }
