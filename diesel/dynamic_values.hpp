@@ -4,11 +4,8 @@
 #include <map>
 using std::map;
 
-#include <string>
-using std::string;
 
-#include <exception>
-using std::exception;
+#include "exception.hpp"
 
 
 
@@ -29,19 +26,16 @@ enum dynamic_value_type
 };
 
 
-class dynamic_value_exception : public exception
+class dynamic_value_exception : public generic_exception
 {
 public:
-    dynamic_value_exception(dynamic_value_type expected, dynamic_value_type received);
-    ~dynamic_value_exception();
-
-    const char* dynamic_type_to_string(dynamic_value_type type);
-    const char* what() const noexcept;
-
     const dynamic_value_type expected, received;
 
-private:
-    const char* msg;
+    dynamic_value_exception(dynamic_value_type expected, dynamic_value_type received);
+//    ~dynamic_value_exception();
+
+    string dynamic_type_to_string(dynamic_value_type type);
+
 };
 
 

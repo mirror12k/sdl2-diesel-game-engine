@@ -7,6 +7,14 @@ namespace diesel
 
 
 
+graphics_exception::graphics_exception(const string& reason)
+: generic_exception(reason)
+{}
+
+
+
+
+
 graphics_context::graphics_context(const string& window_title, int window_width, int window_height)
 : window_title(window_title), window_width(window_width), window_height(window_height)
 {}
@@ -28,8 +36,7 @@ void graphics_context::start_graphics()
 
     if (this->window == nullptr)
     {
-        printf("failed to create window\n");
-        exit(1);
+        throw graphics_exception("failed to create window: "+string(SDL_GetError()));
     }
 
     this->screen = SDL_GetWindowSurface(this->window);
@@ -39,8 +46,7 @@ void graphics_context::start_graphics()
 
     if (TTF_Init())
     {
-        printf("failed to initialize SDL2 TTF: %s\n", TTF_GetError());
-        exit(1);
+        throw graphics_exception("failed to initialize SDL2 TTF: "+string(TTF_GetError()));
     }
 }
 
@@ -71,14 +77,12 @@ SDL_Surface* graphics_context::load_surface(const string& filename)
 {
     SDL_Surface* surf = IMG_Load(filename.c_str());
     if (surf == nullptr) {
-        printf("image load error: %s\n", IMG_GetError());
-        exit(1);
+        throw graphics_exception("image load error: "+string(IMG_GetError()));
     } else {
         SDL_Surface* processed_surf = SDL_ConvertSurfaceFormat(surf, this->screen->format->format, 0);
         SDL_FreeSurface(surf);
          if (surf == nullptr) {
-            printf("image conversion error\n");
-            exit(1);
+            throw graphics_exception("image conversion error: "+string(SDL_GetError()));
         } else {
             return processed_surf;
         }
@@ -94,10 +98,7 @@ SDL_Texture* graphics_context::load_texture(const string& filename)
 //    SDL_FreeSurface(surf);
 
     if (tex == nullptr)
-    {
-        printf("image load error: %s\n", IMG_GetError());
-        exit(1);
-    }
+        throw graphics_exception("image load error: "+string(IMG_GetError()));
 
     return tex;
 }
@@ -106,8 +107,7 @@ SDL_Texture* graphics_context::surface_to_texture(SDL_Surface* surf)
 {
     SDL_Texture* tex = SDL_CreateTextureFromSurface(this->renderer, surf);
     if (tex == nullptr) {
-        printf("texture loading error: %s\n", SDL_GetError());
-        exit(1);
+        throw graphics_exception("surface to texture error: "+string(SDL_GetError()));
     }
     return tex;
 }
@@ -132,8 +132,7 @@ void graphics_context::set_texture_alpha(SDL_Texture* tex, uint8_t alpha)
 {
     if (SDL_SetTextureAlphaMod(tex, alpha) != 0)
     {
-        printf("error setting sprite alpha: %s\n", SDL_GetError());
-        exit(1);
+        throw graphics_exception("error setting sprite alpha: "+string(SDL_GetError()));
     }
 }
 
@@ -216,8 +215,7 @@ TTF_Font* graphics_context::load_ttf_font(const string& filename)
     TTF_Font* font = TTF_OpenFont(filename.c_str(), filename.size());
     if (font == nullptr)
     {
-        printf("error loading ttf font '%s': %s\n", filename.c_str(), TTF_GetError());
-        exit(1);
+        throw graphics_exception("error loading ttf font '"+filename+"': "+string(TTF_GetError()));
     }
     return font;
 }

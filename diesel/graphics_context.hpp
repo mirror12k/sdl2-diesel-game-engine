@@ -16,10 +16,21 @@ using std::map;
 #include <list>
 using std::list;
 
+#include "exception.hpp"
 
 
 namespace diesel
 {
+
+
+
+
+class graphics_exception : public generic_exception
+{
+public:
+    graphics_exception(const string& reason);
+};
+
 
 
 

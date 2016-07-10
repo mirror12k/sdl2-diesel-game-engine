@@ -168,7 +168,8 @@ public:
             this->text_sprite.set_text(text);
         }
 
-        int cleaned = ctx->garbage_collect_texture_references();
+//        int cleaned =
+        ctx->garbage_collect_texture_references();
 //        printf("cleaned %d textures\n", cleaned);
 
 //        if (this->text_sprite.texture == nullptr)

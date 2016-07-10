@@ -13,20 +13,12 @@ namespace diesel
 
 
 dynamic_value_exception::dynamic_value_exception(dynamic_value_type expected, dynamic_value_type received)
-: expected(expected), received(received)
-{
-    char* buffer = new char[2048];
-    snprintf(buffer, 2048, "incorrect type when accessing dynamic value: '%s' expected, '%s' received",
-        this->dynamic_type_to_string(expected), this->dynamic_type_to_string(received));
-    this->msg = buffer;
-}
+: generic_exception("incorrect type when accessing dynamic value: '"+this->dynamic_type_to_string(expected)+
+    "' expected, '"+this->dynamic_type_to_string(received)+"' received"),
+expected(expected), received(received)
+{}
 
-dynamic_value_exception::~dynamic_value_exception()
-{
-    delete this->msg;
-}
-
-const char* dynamic_value_exception::dynamic_type_to_string(dynamic_value_type type)
+string dynamic_value_exception::dynamic_type_to_string(dynamic_value_type type)
 {
     switch (type)
     {
@@ -41,11 +33,6 @@ const char* dynamic_value_exception::dynamic_type_to_string(dynamic_value_type t
     default:
         return "*UNKNOWN DYNAMIC TYPE*";
     }
-}
-
-const char* dynamic_value_exception::what() const noexcept
-{
-    return this->msg;
 }
 
 
