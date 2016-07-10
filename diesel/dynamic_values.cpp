@@ -22,6 +22,9 @@ string dynamic_value_exception::dynamic_type_to_string(dynamic_value_type type)
 {
     switch (type)
     {
+    case DYNAMIC_VALUE_NONE:
+        return "DYNAMIC_VALUE_NONE???";
+
     case DYNAMIC_VALUE_INT:
         return "DYNAMIC_VALUE_INT";
     case DYNAMIC_VALUE_FLOAT:
@@ -30,6 +33,10 @@ string dynamic_value_exception::dynamic_type_to_string(dynamic_value_type type)
         return "DYNAMIC_VALUE_STRING";
     case DYNAMIC_VALUE_REF:
         return "DYNAMIC_VALUE_REF";
+
+    case DYNAMIC_VALUE_REF:
+        return "DYNAMIC_VALUE_OBJECT";
+
     default:
         return "*UNKNOWN DYNAMIC TYPE*";
     }

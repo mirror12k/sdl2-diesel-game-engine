@@ -5,6 +5,7 @@
 using std::map;
 
 
+
 #include "exception.hpp"
 
 
@@ -26,13 +27,13 @@ enum dynamic_value_type
 };
 
 
+
 class dynamic_value_exception : public generic_exception
 {
 public:
     const dynamic_value_type expected, received;
 
     dynamic_value_exception(dynamic_value_type expected, dynamic_value_type received);
-//    ~dynamic_value_exception();
 
     string dynamic_type_to_string(dynamic_value_type type);
 
