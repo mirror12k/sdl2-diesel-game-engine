@@ -63,20 +63,83 @@ named_font::named_font(const string& filename)
 
 
 
-
-referenced_sprite::referenced_sprite(SDL_Texture* texture)
-: texture(texture)
-{}
-
-int referenced_sprite::reference()
+int reference_counted::reference()
 {
     return ++this->reference_count;
 }
 
-int referenced_sprite::unreference()
+int reference_counted::unreference()
 {
     return --this->reference_count;
 }
+
+
+
+
+
+texture_reference::texture_reference(SDL_Texture* texture, const SDL_Rect& sprite_rect)
+: texture(texture), sprite_rect(sprite_rect)
+{}
+
+
+
+referenced_sprite::referenced_sprite(const referenced_sprite& other)
+{
+    if (this->source)
+        this->unreference();
+    this->reference(other.source);
+}
+
+referenced_sprite::referenced_sprite()
+{}
+referenced_sprite::referenced_sprite(texture_reference* ref)
+{
+    this->reference(ref);
+}
+
+referenced_sprite::~referenced_sprite()
+{
+    if (this->source)
+        this->unreference();
+}
+referenced_sprite& referenced_sprite::operator=(const referenced_sprite& other)
+{
+    if (this->source)
+        this->unreference();
+    this->reference(other.source);
+    return *this;
+}
+
+
+
+void referenced_sprite::reference(texture_reference* source)
+{
+    if (this->source)
+        this->unreference();
+
+    this->source = source;
+    this->texture = source->texture;
+    this->sprite_rect = source->sprite_rect;
+    this->rect = source->sprite_rect;
+}
+
+void referenced_sprite::unreference()
+{
+    this->source->unreference();
+    this->source = nullptr;
+    this->texture = nullptr;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -333,32 +396,32 @@ void drawing_context::load_named_font(named_font* font)
 
 
 
-referenced_sprite* drawing_context::render_font_text(named_font* font, const string& text, const SDL_Color& color)
+void drawing_context::render_font_text(referenced_sprite* sprite, named_font* font, const string& text, const SDL_Color& color)
 {
     this->load_named_font(font);
 
     SDL_Surface* surf = TTF_RenderText_Blended(font->font, text.c_str(), color);
     SDL_Texture* tex = this->surface_to_texture(surf);
-    referenced_sprite* sprite = this->create_referenced_sprite(tex);
 
-    sprite->sprite_rect.x = 0;
-    sprite->sprite_rect.y = 0;
-    sprite->sprite_rect.w = surf->w;
-    sprite->sprite_rect.h = surf->h;
-    sprite->rect = sprite->sprite_rect;
+    SDL_Rect sprite_rect;
+    sprite_rect.x = 0;
+    sprite_rect.y = 0;
+    sprite_rect.w = surf->w;
+    sprite_rect.h = surf->h;
 
     SDL_FreeSurface(surf);
 
-    return sprite;
+    texture_reference* ref = this->create_texture_reference(tex, sprite_rect);
+    sprite->reference(ref);
 }
 
 
 
-referenced_sprite* drawing_context::create_referenced_sprite(SDL_Texture* tex)
+texture_reference* drawing_context::create_texture_reference(SDL_Texture* tex, const SDL_Rect& rect)
 {
-    referenced_sprite* sprite = new referenced_sprite(tex);
-    this->referenced_sprites.push_back(sprite);
-    return sprite;
+    texture_reference* ref = new texture_reference(tex, rect);
+    this->referenced_textures.push_back(ref);
+    return ref;
 }
 
 

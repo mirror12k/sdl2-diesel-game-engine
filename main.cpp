@@ -148,7 +148,7 @@ class font_tester : public diesel::graphic_entity
 {
 public:
     diesel::named_font font;
-    diesel::referenced_sprite* text = nullptr;
+    diesel::referenced_sprite text;
 
     font_tester()
     : diesel::graphic_entity("assets/box_tiled.png", 10, 10),
@@ -160,15 +160,10 @@ public:
 //        ctx->load_named_font(&this->font);
 //        printf("loaded font!\n");
 
-        if (this->text == nullptr)
-            this->text = ctx->render_font_text(&this->font, "hello world!");
+        if (this->text.texture == nullptr)
+            ctx->render_font_text(&this->text, &this->font, "hello world!");
 
-        SDL_Rect rect;
-        rect.x = 0;
-        rect.y = 0;
-        rect.w = 300;
-        rect.h = 100;
-        ctx->draw_texture(this->text->texture, &this->text->rect);
+        ctx->draw_texture(this->text.texture, &this->text.rect);
     }
 };
 

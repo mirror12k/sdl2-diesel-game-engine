@@ -21,8 +21,11 @@ using std::string;
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
+
+
 namespace diesel
 {
+
 
 
 class named_sprite
@@ -54,19 +57,56 @@ public:
 };
 
 
-class referenced_sprite
+class reference_counted
 {
 public:
-    SDL_Texture* texture;
     uint reference_count = 0;
-
-    SDL_Rect sprite_rect, rect;
-
-    referenced_sprite(SDL_Texture* texture);
 
     int reference();
     int unreference();
 };
+
+
+class texture_reference : public reference_counted
+{
+public:
+    SDL_Texture* texture;
+    SDL_Rect sprite_rect;
+
+    texture_reference(SDL_Texture* texture, const SDL_Rect& sprite_rect);
+};
+
+class referenced_sprite
+{
+public:
+    texture_reference* source = nullptr;
+
+    SDL_Texture* texture = nullptr;
+
+    SDL_Rect sprite_rect, rect;
+
+//    int tiles_x, tiles_y;
+//    int current_frame_x = 0, current_frame_y = 0;
+
+    referenced_sprite(const referenced_sprite& other);
+    referenced_sprite();
+    referenced_sprite(texture_reference* ref);
+
+    ~referenced_sprite();
+    referenced_sprite& operator=(const referenced_sprite& other);
+
+    void reference(texture_reference* source);
+    void unreference();
+
+//    void step_frame();
+//    void set_frame(int frame);
+
+};
+
+
+
+
+
 
 
 
@@ -82,7 +122,7 @@ private:
 
     map<string, SDL_Texture*> loaded_textures;
     map<string, TTF_Font*> loaded_fonts;
-    list<referenced_sprite*> referenced_sprites;
+    list<texture_reference*> referenced_textures;
 
 public:
     drawing_context(char* window_title, int window_width, int window_height);
@@ -116,9 +156,9 @@ public:
 
     void load_named_font(named_font* font);
 
-    referenced_sprite* render_font_text(named_font* font, const string& text, const SDL_Color& color = {0, 0, 0});
+    void render_font_text(referenced_sprite* sprite, named_font* font, const string& text, const SDL_Color& color = {0, 0, 0});
 
-    referenced_sprite* create_referenced_sprite(SDL_Texture* tex);
+    texture_reference* create_texture_reference(SDL_Texture* tex, const SDL_Rect& rect);
 
 };
 
