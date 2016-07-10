@@ -165,10 +165,11 @@ public:
 //        text += "?";
 //        this->text_sprite.set_text(text);
 
-        if (this->text_sprite.texture == nullptr)
+//        if (this->text_sprite.texture == nullptr)
             ctx->load_rendered_text_sprite(&this->text_sprite);
 
-        ctx->draw_texture(this->text_sprite.texture, &this->text_sprite.rect);
+        ctx->draw_sprite(&this->text_sprite);
+//        ctx->draw_texture(this->text_sprite.texture, &this->text_sprite.rect);
     }
 };
 

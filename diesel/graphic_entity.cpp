@@ -21,6 +21,7 @@ bool graphic_entity::is_drawn () const
 
 void graphic_entity::draw(drawing_context* ctx)
 {
+    ctx->load_named_sprite(&this->sprite);
     ctx->draw_sprite(&this->sprite);
 }
 
@@ -60,6 +61,8 @@ tiled_entity::~tiled_entity()
 
 void tiled_entity::draw(drawing_context* ctx)
 {
+    ctx->load_named_sprite(&this->sprite);
+
     SDL_Rect dest = this->sprite.sprite_rect;
     for (int y = 0; y < this->array_y; y++)
         for (int x = 0; x < this->array_x; x++)

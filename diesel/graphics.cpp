@@ -305,44 +305,40 @@ void drawing_context::draw_sub_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect
 
 
 
-
-void drawing_context::draw_sprite(named_sprite* sprite)
+void drawing_context::load_named_sprite(named_sprite* sprite)
 {
-    if (sprite->texture == nullptr) {
+    if (sprite->texture)
+        return;
+    else
         sprite->texture = this->get_texture(sprite->filename);
-    }
+}
 
+
+
+
+void drawing_context::draw_sprite(graphic_sprite* sprite)
+{
     this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &sprite->rect);
 }
 
-void drawing_context::draw_sprite_alpha(named_sprite* sprite, uint8_t alpha)
+void drawing_context::draw_sprite_alpha(graphic_sprite* sprite, uint8_t alpha)
 {
-    if (sprite->texture == nullptr) {
-        sprite->texture = this->get_texture(sprite->filename);
-    }
-
     this->set_texture_alpha(sprite->texture, alpha);
     this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &sprite->rect);
     this->set_texture_alpha(sprite->texture, 255);
 }
 
 
-void drawing_context::draw_sprite_offset(named_sprite* sprite, int offsetx, int offsety)
+void drawing_context::draw_sprite_offset(graphic_sprite* sprite, int offsetx, int offsety)
 {
-    if (sprite->texture == nullptr) {
-        sprite->texture = this->get_texture(sprite->filename);
-    }
     SDL_Rect dest = sprite->rect;
     dest.x += offsetx;
     dest.y += offsety;
     this->draw_sub_texture(sprite->texture, &sprite->sprite_rect, &dest);
 }
 
-void drawing_context::draw_sprite_rect(named_sprite* sprite, int offsetx, int offsety)
+void drawing_context::draw_sprite_rect(graphic_sprite* sprite, int offsetx, int offsety)
 {
-    if (sprite->texture == nullptr) {
-        sprite->texture = this->get_texture(sprite->filename);
-    }
     SDL_Rect dest;
     dest.x = sprite->rect.x + offsetx;
     dest.y = sprite->rect.y + offsety;
@@ -353,17 +349,16 @@ void drawing_context::draw_sprite_rect(named_sprite* sprite, int offsetx, int of
 }
 
 
-void drawing_context::draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y)
+void drawing_context::draw_sprite_tile(graphic_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y)
 {
-    if (sprite->texture == nullptr)
-        sprite->texture = this->get_texture(sprite->filename);
-
     SDL_Rect rect = sprite->sprite_rect;
     rect.x = rect.w * tile_x;
     rect.y = rect.h * tile_y;
 
     this->draw_sub_texture(sprite->texture, &rect, dest);
 }
+
+
 
 
 
@@ -397,13 +392,9 @@ TTF_Font* drawing_context::get_font(const string& filename)
 void drawing_context::load_named_font(named_font* font)
 {
     if (font->font)
-    {
         return;
-    }
     else
-    {
         font->font = this->get_font(font->filename);
-    }
 }
 
 void drawing_context::load_rendered_text_sprite(rendered_text_sprite* sprite)

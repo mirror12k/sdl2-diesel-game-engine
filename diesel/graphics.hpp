@@ -27,14 +27,18 @@ namespace diesel
 {
 
 
-
-class named_sprite
+class graphic_sprite
 {
 public:
     SDL_Texture* texture = nullptr;
-    string filename;
-
     SDL_Rect sprite_rect, rect;
+};
+
+
+class named_sprite : public graphic_sprite
+{
+public:
+    string filename;
 
     int tiles_x, tiles_y;
     int current_frame_x = 0, current_frame_y = 0;
@@ -76,14 +80,10 @@ public:
     texture_reference(SDL_Texture* texture, const SDL_Rect& sprite_rect);
 };
 
-class referenced_sprite
+class referenced_sprite : public graphic_sprite
 {
 public:
     texture_reference* source = nullptr;
-
-    SDL_Texture* texture = nullptr;
-
-    SDL_Rect sprite_rect, rect;
 
 //    int tiles_x, tiles_y;
 //    int current_frame_x = 0, current_frame_y = 0;
@@ -157,11 +157,13 @@ public:
     void draw_texture(SDL_Texture* tex, SDL_Rect* dst);
     void draw_sub_texture(SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst);
 
-    void draw_sprite(named_sprite* sprite);
-    void draw_sprite_alpha(named_sprite* sprite, uint8_t alpha);
-    void draw_sprite_offset(named_sprite* sprite, int offsetx, int offsety);
-    void draw_sprite_rect(named_sprite* sprite, int offsetx, int offsety);
-    void draw_sprite_tile(named_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y);
+    void load_named_sprite(named_sprite* sprite);
+
+    void draw_sprite(graphic_sprite* sprite);
+    void draw_sprite_alpha(graphic_sprite* sprite, uint8_t alpha);
+    void draw_sprite_offset(graphic_sprite* sprite, int offsetx, int offsety);
+    void draw_sprite_rect(graphic_sprite* sprite, int offsetx, int offsety);
+    void draw_sprite_tile(graphic_sprite* sprite, SDL_Rect* dest, int tile_x, int tile_y);
 
     TTF_Font* load_ttf_font(const string& filename);
     TTF_Font* get_font(const string& filename);

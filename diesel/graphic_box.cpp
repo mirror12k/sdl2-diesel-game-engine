@@ -14,6 +14,8 @@ box_width(box_width), box_height(box_height)
 
 void graphic_box::draw(drawing_context* ctx)
 {
+    ctx->load_named_sprite(&this->sprite);
+
     SDL_Rect dest = this->sprite.rect;
     ctx->draw_sprite_tile(&this->sprite, &dest, 0, 0);
     dest.y = this->sprite.rect.y + (this->box_height - 1) * dest.h;
