@@ -7,7 +7,7 @@ namespace diesel
 
 
 
-graphics_context::graphics_context(char* window_title, int window_width, int window_height)
+graphics_context::graphics_context(const string& window_title, int window_width, int window_height)
 : window_title(window_title), window_width(window_width), window_height(window_height)
 {}
 
@@ -20,7 +20,7 @@ graphics_context::~graphics_context()
 
 void graphics_context::start_graphics()
 {
-    this->window = SDL_CreateWindow(this->window_title,
+    this->window = SDL_CreateWindow(this->window_title.c_str(),
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         this->window_width, this->window_height,
         SDL_WINDOW_OPENGL);
@@ -106,7 +106,7 @@ SDL_Texture* graphics_context::surface_to_texture(SDL_Surface* surf)
 {
     SDL_Texture* tex = SDL_CreateTextureFromSurface(this->renderer, surf);
     if (tex == nullptr) {
-        printf("texture loading error\n");
+        printf("texture loading error: %s\n", SDL_GetError());
         exit(1);
     }
     return tex;
@@ -288,6 +288,30 @@ texture_reference* graphics_context::create_texture_reference(SDL_Texture* tex, 
     texture_reference* ref = new texture_reference(tex, rect);
     this->referenced_textures.push_back(ref);
     return ref;
+}
+
+
+int graphics_context::garbage_collect_texture_references()
+{
+    int garbage_collected = 0;
+
+    for (list<texture_reference*>::iterator iter = this->referenced_textures.begin(), iter_end = this->referenced_textures.end();
+            iter != iter_end;)
+    {
+        if ((*iter)->reference_count == 0)
+        {
+            SDL_DestroyTexture((*iter)->texture);
+            delete *iter;
+            iter = this->referenced_textures.erase(iter);
+            garbage_collected++;
+        }
+        else
+        {
+             iter++;
+        }
+    }
+
+    return garbage_collected;
 }
 
 

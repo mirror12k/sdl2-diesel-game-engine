@@ -56,6 +56,7 @@ class reference_counted
 public:
     uint reference_count = 0;
 
+    // not calling reference may trigger double-linked list corruption or 'xcb' errors
     int reference();
     int unreference();
 };

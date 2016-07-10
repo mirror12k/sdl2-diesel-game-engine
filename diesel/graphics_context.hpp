@@ -33,7 +33,7 @@ private:
     SDL_Surface* screen;
     SDL_Renderer* renderer;
 
-    char* window_title;
+    string window_title;
     int window_width, window_height;
 
     map<string, SDL_Texture*> loaded_textures;
@@ -41,7 +41,7 @@ private:
     list<texture_reference*> referenced_textures;
 
 public:
-    graphics_context(char* window_title, int window_width, int window_height);
+    graphics_context(const string& window_title, int window_width, int window_height);
     ~graphics_context();
 
     void start_graphics();
@@ -78,6 +78,8 @@ public:
     void render_font_text(referenced_sprite* sprite, named_font* font, const string& text, const SDL_Color& color = {0, 0, 0});
 
     texture_reference* create_texture_reference(SDL_Texture* tex, const SDL_Rect& rect);
+
+    int garbage_collect_texture_references();
 
 };
 

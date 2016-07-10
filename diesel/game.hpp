@@ -23,7 +23,7 @@ private:
     scene* loading_scene = nullptr;
 
 public:
-    game(char* window_title, int window_width, int window_height, int fps);
+    game(const string& window_title, int window_width, int window_height, int fps);
 
     void check_input();
 

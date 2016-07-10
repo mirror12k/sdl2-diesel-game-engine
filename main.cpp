@@ -161,9 +161,15 @@ public:
 //        ctx->load_named_font(&this->font);
 //        printf("loaded font!\n");
 
-//        string text = this->text_sprite.text;
-//        text += "?";
-//        this->text_sprite.set_text(text);
+        if (rand() % 2 == 0)
+        {
+            string text = this->text_sprite.text;
+            text += "?";
+            this->text_sprite.set_text(text);
+        }
+
+        int cleaned = ctx->garbage_collect_texture_references();
+//        printf("cleaned %d textures\n", cleaned);
 
 //        if (this->text_sprite.texture == nullptr)
             ctx->load_rendered_text_sprite(&this->text_sprite);

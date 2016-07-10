@@ -123,6 +123,8 @@ void referenced_sprite::reference(texture_reference* source)
     this->texture = source->texture;
     this->sprite_rect = source->sprite_rect;
     this->rect = source->sprite_rect;
+
+    source->reference();
 }
 
 void referenced_sprite::unreference()

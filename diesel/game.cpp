@@ -7,7 +7,7 @@ namespace diesel
 
 
 
-game::game(char* window_title, int window_width, int window_height, int fps)
+game::game(const string& window_title, int window_width, int window_height, int fps)
 : graphics(window_title, window_width, window_height), fps(fps)
 {
     this->entity_data = new update_context();
