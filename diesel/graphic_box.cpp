@@ -12,7 +12,7 @@ box_width(box_width), box_height(box_height)
 {}
 
 
-void graphic_box::draw(drawing_context* ctx)
+void graphic_box::draw(graphics_context* ctx)
 {
     ctx->load_named_sprite(&this->sprite);
 

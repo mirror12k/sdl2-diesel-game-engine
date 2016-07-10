@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "graphics.hpp"
+#include "graphics_context.hpp"
 #include "entity.hpp"
-#include "context.hpp"
+#include "update_context.hpp"
 
 #include "dynamic_loading.hpp"
 
@@ -21,7 +21,7 @@ public:
 
     bool is_drawn () const;
 
-    virtual void draw(drawing_context* ctx);
+    virtual void draw(graphics_context* ctx);
 
     void move(int deltax, int deltay);
     void move_to(int x, int y);
@@ -42,7 +42,7 @@ public:
     tiled_entity(const string& filename, int width, int height, int tilex, int tiley, int array_x, int array_y);
     ~tiled_entity();
 
-    virtual void draw(drawing_context* ctx);
+    virtual void draw(graphics_context* ctx);
 
     void load_data(const string& data);
 

@@ -156,7 +156,7 @@ public:
     text_sprite("assets/fonts/open sans/OpenSans-Regular.ttf", "lol")
     {}
 
-    void draw(diesel::drawing_context* ctx)
+    void draw(diesel::graphics_context* ctx)
     {
 //        ctx->load_named_font(&this->font);
 //        printf("loaded font!\n");
@@ -196,7 +196,7 @@ int main ()
 //
 //    ents.update();
 //
-//    diesel::drawing_context win("lol test", 1200, 640);
+//    diesel::graphics_context win("lol test", 1200, 640);
 //    win.start_graphics();
 //
 ////    SDL_Texture* tex = win.get_texture("tetris_grey_block.png");

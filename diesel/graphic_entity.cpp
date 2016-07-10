@@ -19,7 +19,7 @@ bool graphic_entity::is_drawn () const
 }
 
 
-void graphic_entity::draw(drawing_context* ctx)
+void graphic_entity::draw(graphics_context* ctx)
 {
     ctx->load_named_sprite(&this->sprite);
     ctx->draw_sprite(&this->sprite);
@@ -59,7 +59,7 @@ tiled_entity::~tiled_entity()
     delete this->tile_array;
 }
 
-void tiled_entity::draw(drawing_context* ctx)
+void tiled_entity::draw(graphics_context* ctx)
 {
     ctx->load_named_sprite(&this->sprite);
 

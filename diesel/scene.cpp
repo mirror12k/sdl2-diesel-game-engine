@@ -37,7 +37,7 @@ bool scene::is_ready() const
 
 
 // placeholder functions for when a scene doesn't require any loading
-void scene::load_graphics(drawing_context* ctx)
+void scene::load_graphics(graphics_context* ctx)
 {
     this->set_graphics_loaded();
 }
@@ -65,7 +65,7 @@ void scene::update(update_context* ctx)
         ctx->remove_entity(this);
 }
 
-void scene::draw(drawing_context* ctx)
+void scene::draw(graphics_context* ctx)
 {
     if (not this->graphics_loaded)
         this->load_graphics(ctx);
@@ -101,7 +101,7 @@ vector<string> file_scene::load_file(const string& filename)
     return result;
 }
 
-void file_scene::load_graphics(drawing_context* ctx)
+void file_scene::load_graphics(graphics_context* ctx)
 {
     if (this->graphics_filename.length() > 0)
     {

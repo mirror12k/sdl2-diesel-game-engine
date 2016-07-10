@@ -4,7 +4,7 @@
 
 
 #include "entity.hpp"
-#include "graphics.hpp"
+#include "graphics_context.hpp"
 #include "service.hpp"
 
 
@@ -34,7 +34,7 @@ public:
     void remove_all();
 
     void update ();
-    void draw (drawing_context* ctx);
+    void draw (graphics_context* ctx);
 
     const uint8_t* get_keyboard_state();
 

@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "context.hpp"
+#include "update_context.hpp"
 #include "scene.hpp"
 
 
@@ -14,7 +14,7 @@ class game
 {
 private:
     update_context* entity_data;
-    drawing_context graphics;
+    graphics_context graphics;
 
     bool running = false;
     int fps;

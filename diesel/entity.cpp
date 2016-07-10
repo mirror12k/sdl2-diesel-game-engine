@@ -16,7 +16,7 @@ bool entity::is_drawn () const
 
 void entity::update(update_context* ctx)
 {}
-void entity::draw(drawing_context* ctx)
+void entity::draw(graphics_context* ctx)
 {}
 
 
@@ -44,7 +44,7 @@ void entity_pool::update(update_context* ctx)
     this->update_removals(ctx);
 }
 
-void entity_pool::draw(drawing_context* ctx)
+void entity_pool::draw(graphics_context* ctx)
 {
     for (list<entity*>::iterator iter = this->entity_pool.begin(), iter_end = this->entity_pool.end(); iter != iter_end; iter++)
     {

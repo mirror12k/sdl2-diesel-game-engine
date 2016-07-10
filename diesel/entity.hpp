@@ -16,7 +16,7 @@ namespace diesel
 {
 
 class update_context;
-class drawing_context;
+class graphics_context;
 
 
 class entity
@@ -27,7 +27,7 @@ public:
     virtual bool is_drawn () const;
 
     virtual void update (update_context* ctx);
-    virtual void draw (drawing_context* ctx);
+    virtual void draw (graphics_context* ctx);
 
 
     virtual void on_added(update_context* ctx);
@@ -49,7 +49,7 @@ public:
 
 
     void update (update_context* ctx);
-    void draw (drawing_context* ctx);
+    void draw (graphics_context* ctx);
 
     // removes any entities from the pool which are scheduled for removal
     // called automatically at the start of update()

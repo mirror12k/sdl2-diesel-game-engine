@@ -1,5 +1,5 @@
 
-#include "context.hpp"
+#include "update_context.hpp"
 
 
 namespace diesel
@@ -46,7 +46,7 @@ void update_context::update ()
     this->drawn_pool.update(this);
 }
 
-void update_context::draw (drawing_context* ctx)
+void update_context::draw (graphics_context* ctx)
 {
     this->drawn_pool.draw(ctx);
 }

@@ -2,8 +2,8 @@
 #pragma once
 
 #include "entity.hpp"
-#include "context.hpp"
-#include "graphics.hpp"
+#include "update_context.hpp"
+#include "graphics_context.hpp"
 #include "dynamic_loading.hpp"
 
 #include <string>
@@ -35,14 +35,14 @@ public:
 
     bool is_ready() const;
 
-    virtual void load_graphics(drawing_context* ctx);
+    virtual void load_graphics(graphics_context* ctx);
     virtual void load_entities(update_context* ctx);
 
     void set_graphics_loaded(bool graphics_loaded=true);
     void set_entities_loaded(bool entities_loaded=true);
 
     virtual void update(update_context* ctx);
-    virtual void draw(drawing_context* ctx);
+    virtual void draw(graphics_context* ctx);
 
 };
 
@@ -59,7 +59,7 @@ public:
 
     vector<string> load_file(const string& filename);
 
-    virtual void load_graphics(drawing_context* ctx);
+    virtual void load_graphics(graphics_context* ctx);
     virtual void load_entities(update_context* ctx);
 
     entity* load_entity(const string& entity_string);
