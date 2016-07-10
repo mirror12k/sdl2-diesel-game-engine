@@ -105,6 +105,18 @@ public:
 
 
 
+class rendered_text_sprite : public referenced_sprite
+{
+public:
+    named_font font;
+    string text;
+
+    rendered_text_sprite(const string& font_filename, const string& text="");
+
+    // setting the text variable directly won't un-reference any old rendered texture
+    void set_text(const string& text);
+};
+
 
 
 
@@ -155,6 +167,7 @@ public:
     TTF_Font* get_font(const string& filename);
 
     void load_named_font(named_font* font);
+    void load_rendered_text_sprite(rendered_text_sprite* sprite);
 
     void render_font_text(referenced_sprite* sprite, named_font* font, const string& text, const SDL_Color& color = {0, 0, 0});
 

@@ -131,6 +131,18 @@ void referenced_sprite::unreference()
 }
 
 
+rendered_text_sprite::rendered_text_sprite(const string& font_filename, const string& text)
+: font(font_filename), text(text)
+{}
+
+void rendered_text_sprite::set_text(const string& text)
+{
+    this->text = text;
+    if (this->source)
+        this->unreference();
+}
+
+
 
 
 
@@ -391,6 +403,20 @@ void drawing_context::load_named_font(named_font* font)
     else
     {
         font->font = this->get_font(font->filename);
+    }
+}
+
+void drawing_context::load_rendered_text_sprite(rendered_text_sprite* sprite)
+{
+    this->load_named_font(&sprite->font);
+
+    if (sprite->texture)
+    {
+        return;
+    }
+    else
+    {
+        this->render_font_text(sprite, &sprite->font, sprite->text);
     }
 }
 

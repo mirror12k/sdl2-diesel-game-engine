@@ -147,12 +147,13 @@ public:
 class font_tester : public diesel::graphic_entity
 {
 public:
-    diesel::named_font font;
-    diesel::referenced_sprite text;
+//    diesel::named_font font;
+//    diesel::referenced_sprite text;
+    diesel::rendered_text_sprite text_sprite;
 
     font_tester()
     : diesel::graphic_entity("assets/box_tiled.png", 10, 10),
-    font("assets/fonts/open sans/OpenSans-Regular.ttf")
+    text_sprite("assets/fonts/open sans/OpenSans-Regular.ttf", "lol")
     {}
 
     void draw(diesel::drawing_context* ctx)
@@ -160,10 +161,14 @@ public:
 //        ctx->load_named_font(&this->font);
 //        printf("loaded font!\n");
 
-        if (this->text.texture == nullptr)
-            ctx->render_font_text(&this->text, &this->font, "hello world!");
+//        string text = this->text_sprite.text;
+//        text += "?";
+//        this->text_sprite.set_text(text);
 
-        ctx->draw_texture(this->text.texture, &this->text.rect);
+        if (this->text_sprite.texture == nullptr)
+            ctx->load_rendered_text_sprite(&this->text_sprite);
+
+        ctx->draw_texture(this->text_sprite.texture, &this->text_sprite.rect);
     }
 };
 
