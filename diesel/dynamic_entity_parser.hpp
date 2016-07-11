@@ -18,10 +18,10 @@ namespace diesel
 enum dent_token_type
 {
     DENT_TOKEN_SYMBOL,
-    DENT_TOKEN_NAME,
     DENT_TOKEN_STRING,
     DENT_TOKEN_INTEGER,
     DENT_TOKEN_FLOAT,
+    DENT_TOKEN_NAME,
 };
 
 
@@ -54,6 +54,8 @@ public:
     void parse(const string& text);
     uint skip_whitespace(const string& text, uint offset);
     uint extract_string(const string& text, uint offset);
+    uint extract_number(const string& text, uint offset);
+    uint extract_name(const string& text, uint offset);
 
     dent_token next_token();
     bool is_next_token(dent_token_type type) const;

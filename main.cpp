@@ -287,8 +287,8 @@ int main ()
 //
 //    dval.as_int();
 
-    diesel::dynamic_entity_lexer lexer ("=( 'test'\n\
-'hi' ,\"asdf\", , \n\
+    diesel::dynamic_entity_lexer lexer ("lol=test( 'test'\n\
+'hi' ,\"asdf\", 15, \n\
 )");
 
     cout << lexer.next_token().to_string() << endl;

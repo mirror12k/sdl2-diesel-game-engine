@@ -54,6 +54,10 @@ void dynamic_entity_lexer::parse(const string& text)
             offset = this->extract_string(text, offset);
         else if (text.compare(offset, 1, "'") == 0)
             offset = this->extract_string(text, offset);
+        else if ((text.at(offset) >= '0') && (text.at(offset) <= '9'))
+            offset = this->extract_number(text, offset);
+        else if (((text.at(offset) >= 'a') && (text.at(offset) <= 'z')) || ((text.at(offset) >= 'A') && (text.at(offset) <= 'Z')))
+            offset = this->extract_name(text, offset);
         else
             throw generic_exception("TODO");
 
@@ -121,6 +125,52 @@ uint dynamic_entity_lexer::extract_string(const string& text, uint offset)
 
     return found + 1;
 }
+
+uint dynamic_entity_lexer::extract_number(const string& text, uint offset)
+{
+    uint start_offset = offset;
+    uint line_offset = this->line_offset;
+    while ((offset <= text.size()) && (text.at(offset) >= '0') && (text.at(offset) <= '9'))
+    {
+        offset++;
+        this->line_offset++;
+    }
+
+    this->tokens.push_back(dent_token(DENT_TOKEN_INTEGER, text.substr(start_offset, offset - start_offset),
+        this->line_number, line_offset, start_offset));
+
+    return offset;
+}
+
+uint dynamic_entity_lexer::extract_name(const string& text, uint offset)
+{
+    uint start_offset = offset;
+    uint line_offset = this->line_offset;
+
+    offset++;
+    this->line_offset++;
+
+    char c = text.at(offset);
+    while ((offset <= text.size()) && (
+        ((c >= 'a') && (c <= 'z')) ||
+        ((c >= 'A') && (c <= 'Z')) ||
+        ((c >= '0') && (c <= '9')) ||
+        (c == '_')
+    ))
+    {
+        offset++;
+        this->line_offset++;
+        c = text.at(offset);
+    }
+
+    this->tokens.push_back(dent_token(DENT_TOKEN_NAME, text.substr(start_offset, offset - start_offset),
+        this->line_number, line_offset, start_offset));
+
+    return offset;
+}
+
+
+
 
 
 
