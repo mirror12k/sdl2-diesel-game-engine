@@ -86,6 +86,7 @@ enum dent_expression_type
 {
     DENT_EXPRESSION_INSTANTIATION,
     DENT_EXPRESSION_FUNCTION_CALL,
+    DENT_EXPRESSION_LOAD_VARIABLE,
 };
 
 
@@ -95,8 +96,39 @@ public:
     const dent_expression_type type;
 
     dent_expression(dent_expression_type type);
+    virtual ~dent_expression();
 };
 
+class dent_expression_expression : public dent_expression
+{
+public:
+    dent_expression* exp;
+    dent_expression_expression(dent_expression_type type, dent_expression* exp);
+    virtual ~dent_expression_expression();
+};
+
+class dent_two_sided_expression : public dent_expression
+{
+public:
+    dent_expression* left, * right;
+    dent_two_sided_expression(dent_expression_type type, dent_expression* left, dent_expression* right);
+    virtual ~dent_two_sided_expression();
+};
+
+
+
+class dent_load_variable_expression : public dent_expression
+{
+public:
+    string name;
+    dent_load_variable_expression(const string& name);
+};
+
+class dent_function_call_expression : public dent_two_sided_expression
+{
+public:
+    dent_function_call_expression(dent_expression* function_exp, dent_expression* args_exp);
+};
 
 
 
@@ -155,6 +187,8 @@ public:
     void parse(dynamic_entity_lexer& lexer);
     dent_statement* parse_statement(dynamic_entity_lexer& lexer);
     dent_expression* parse_expression(dynamic_entity_lexer& lexer);
+    dent_expression* parse_more_expression(dynamic_entity_lexer& lexer, dent_expression* exp);
+    dent_expression* parse_object_expression(dynamic_entity_lexer& lexer);
 };
 
 

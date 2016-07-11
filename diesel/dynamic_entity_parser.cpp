@@ -266,9 +266,38 @@ dent_expression::dent_expression(dent_expression_type type)
 : type(type)
 {}
 
+dent_expression::~dent_expression()
+{}
 
 
+dent_expression_expression::dent_expression_expression(dent_expression_type type, dent_expression* exp)
+: dent_expression(type), exp(exp)
+{}
 
+virtual dent_expression_expression::~dent_expression_expression()
+{
+    delete this->exp;
+}
+
+dent_two_sided_expression(dent_expression_type type, dent_expression* left, dent_expression* right)
+: dent_expression(type), left(left), right(right)
+{}
+
+~dent_two_sided_expression()
+{
+    delete this->left;
+    delete this->right;
+}
+
+
+dent_load_variable_expression::dent_load_variable_expression(const string& name)
+: dent_expression(DENT_EXPRESSION_LOAD_VARIABLE), name(name)
+{}
+
+
+dent_function_call_expression::dent_function_call_expression(dent_expression* function_exp, dent_expression* args_exp)
+: dent_two_sided_expression(DENT_EXPRESSION_FUNCTION_CALL, function_exp, args_exp)
+{}
 
 
 
@@ -320,31 +349,55 @@ void dent_syntax_tree::parse(dynamic_entity_lexer& lexer)
     }
 }
 
-dent_statement* parse_statement(dynamic_entity_lexer& lexer)
+dent_statement* dent_syntax_tree::parse_statement(dynamic_entity_lexer& lexer)
 {
     if (lexer.is_next_token(DENT_TOKEN_NAME) and lexer.is_after_next_token(DENT_TOKEN_SYMBOL, "="))
     {
         string name = lexer.next_token().data;
         lexer.skip_token();
-        return dent_assignment_statement(name, this->parse_expression(lexer));
+        return new dent_assignment_statement(name, this->parse_expression(lexer));
     }
     else
     {
-        return dent_expressional_statement(this->parse_expression(lexer));
+        return new dent_expressional_statement(this->parse_expression(lexer));
     }
 }
 
 
 
-dent_expression* parse_expression(dynamic_entity_lexer& lexer)
+dent_expression* dent_syntax_tree::parse_expression(dynamic_entity_lexer& lexer)
 {
     if (lexer.is_next_token(DENT_TOKEN_NAME, "new") and lexer.is_after_next_token(DENT_TOKEN_NAME) and
             lexer.is_n_token(DENT_TOKEN_SYMBOL, "(", 2))
     {
+        return this->parse_more_expression(lexer, new dent_load_variable_expression(name));
+    }
+    else if (lexer.is_next_token(DENT_TOKEN_NAME))
+    {
+        string name = lexer.next_token().data;
+        return this->parse_more_expression(lexer, new dent_load_variable_expression(name));
+    }
+    else
+    {
+        throw generic_exception("TODO failed to parse expression");
+    }
+}
+
+
+dent_expression* dent_syntax_tree::parse_more_expression(dynamic_entity_lexer& lexer, dent_expression* exp)
+{
+    if (lexer.is_next_token(DENT_TOKEN_SYMBOL, "("))
+    {
 
     }
 }
 
+
+
+dent_expression* parse_object_expression(dynamic_entity_lexer& lexer)
+{
+
+}
 
 
 }
