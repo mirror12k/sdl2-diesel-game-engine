@@ -301,6 +301,9 @@ int main ()
     cout << lexer.next_token().to_string() << endl;
     cout << lexer.next_token().to_string() << endl;
     cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
 
 
 //    diesel::game game ("lol test", 800, 640, 30);
