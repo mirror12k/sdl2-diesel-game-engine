@@ -53,6 +53,7 @@ public:
 
     void parse(const string& text);
     uint skip_whitespace(const string& text, uint offset);
+    uint extract_string(const string& text, uint offset);
 
     dent_token next_token();
     bool is_next_token(dent_token_type type) const;

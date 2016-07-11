@@ -17,7 +17,8 @@ dent_token::dent_token(dent_token_type type, const string& data, uint line_numbe
 
 string dent_token::to_string() const
 {
-    return "token type #" + std::to_string(this->type) + " '" + this->data + "'";
+    return "token type #" + std::to_string(this->type) + " '" + this->data +
+            "' from line #" + std::to_string(this->line_number) + " offset " + std::to_string(this->line_offset);
 }
 
 
@@ -49,6 +50,10 @@ void dynamic_entity_lexer::parse(const string& text)
             this->tokens.push_back(dent_token(DENT_TOKEN_SYMBOL, "=", this->line_number, this->line_offset++, offset++));
         else if (text.compare(offset, 1, ",") == 0)
             this->tokens.push_back(dent_token(DENT_TOKEN_SYMBOL, ",", this->line_number, this->line_offset++, offset++));
+        else if (text.compare(offset, 1, "\"") == 0)
+            offset = this->extract_string(text, offset);
+        else if (text.compare(offset, 1, "'") == 0)
+            offset = this->extract_string(text, offset);
         else
             throw generic_exception("TODO");
 
@@ -89,6 +94,36 @@ uint dynamic_entity_lexer::skip_whitespace(const string& text, uint offset)
 
 
 
+uint dynamic_entity_lexer::extract_string(const string& text, uint offset)
+{
+    char quote = text.at(offset);
+    offset++;
+    this->line_offset++;
+
+    uint found = text.find(quote, offset);
+    if (found == string::npos)
+        throw generic_exception("missing closing quote");
+
+    this->tokens.push_back(dent_token(DENT_TOKEN_STRING, text.substr(offset, found - offset), this->line_number, this->line_offset - 1, offset - 1));
+
+    for (; offset <= found; offset++)
+    {
+        if (text.at(offset) == '\n')
+        {
+            this->line_number++;
+            this->line_offset = 0;
+        }
+        else
+        {
+            this->line_offset++;
+        }
+    }
+
+    return found + 1;
+}
+
+
+
 dent_token dynamic_entity_lexer::next_token()
 {
     if (this->is_end())
@@ -97,6 +132,13 @@ dent_token dynamic_entity_lexer::next_token()
     dent_token ret = this->tokens.front();
     this->tokens.pop_front();
     return ret;
+}
+
+
+
+bool dynamic_entity_lexer::is_next_token(dent_token_type type) const
+{
+    return this->tokens.front().type == type;
 }
 
 

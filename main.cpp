@@ -287,9 +287,13 @@ int main ()
 //
 //    dval.as_int();
 
-    diesel::dynamic_entity_lexer lexer ("=(,, , \
-    )");
+    diesel::dynamic_entity_lexer lexer ("=( 'test'\n\
+'hi' ,\"asdf\", , \n\
+)");
 
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
+    cout << lexer.next_token().to_string() << endl;
     cout << lexer.next_token().to_string() << endl;
     cout << lexer.next_token().to_string() << endl;
     cout << lexer.next_token().to_string() << endl;
