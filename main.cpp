@@ -1,16 +1,16 @@
 
 
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
 #include <stdio.h>
 
 #include "diesel/diesel.hpp"
 
 #include "diesel/dynamic_entity_parser.hpp"
 
-
-#include <iostream>
-
-using std::cout;
-using std::endl;
 
 
 
@@ -287,23 +287,22 @@ int main ()
 //
 //    dval.as_int();
 
-    diesel::dynamic_entity_lexer lexer ("lol=test( 'test'\n\
-'hi' ,\"asdf\", 15, \n\
-)");
+    diesel::dynamic_entity_lexer lexer ("lol=test(asdf=15, qwerty = 'hello world')");
+    diesel::dent_syntax_tree tree(lexer);
 
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
-    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
+//    cout << lexer.next_token().to_string() << endl;
 
 
 //    diesel::game game ("lol test", 800, 640, 30);

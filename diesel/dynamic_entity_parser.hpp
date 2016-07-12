@@ -13,6 +13,9 @@ using std::string;
 
 
 
+#include "dynamic_values.hpp"
+
+
 namespace diesel
 {
 
@@ -64,6 +67,8 @@ public:
 
     dent_token next_token();
     void skip_token();
+    void assert_skip_token(dent_token_type type);
+    void assert_skip_token(dent_token_type type, const string& value);
 
     bool is_next_token(dent_token_type type) const;
     bool is_next_token(dent_token_type type, const string& value) const;
@@ -87,6 +92,8 @@ enum dent_expression_type
     DENT_EXPRESSION_INSTANTIATION,
     DENT_EXPRESSION_FUNCTION_CALL,
     DENT_EXPRESSION_LOAD_VARIABLE,
+    DENT_EXPRESSION_OBJECT,
+    DENT_EXPRESSION_STATIC_VALUE,
 };
 
 
@@ -117,6 +124,39 @@ public:
 
 
 
+
+
+
+
+struct dent_object_instruction
+{
+    string name;
+    dent_expression* exp;
+
+    dent_object_instruction(const string& name, dent_expression* exp);
+};
+
+class dent_object_expression : public dent_expression
+{
+public:
+    list<dent_object_instruction> instructions;
+
+    dent_object_expression();
+    virtual ~dent_object_expression();
+};
+
+
+
+
+
+
+class dent_static_value_expression : public dent_expression
+{
+public:
+    dynamic_value value;
+    dent_static_value_expression(const dynamic_value& value);
+};
+
 class dent_load_variable_expression : public dent_expression
 {
 public:
@@ -128,6 +168,12 @@ class dent_function_call_expression : public dent_two_sided_expression
 {
 public:
     dent_function_call_expression(dent_expression* function_exp, dent_expression* args_exp);
+};
+
+class dent_instantiate_expression : public dent_two_sided_expression
+{
+public:
+    dent_instantiate_expression(dent_expression* class_exp, dent_expression* args_exp);
 };
 
 
@@ -172,14 +218,14 @@ class dent_expressional_statement : public dent_expression_statement
 {
 public:
     dent_expressional_statement(dent_expression* exp);
-}
+};
 
 
 
 class dent_syntax_tree
 {
 protected:
-    list<dent_assignment_statement*> statements;
+    list<dent_statement*> statements;
 
 public:
     dent_syntax_tree(dynamic_entity_lexer& lexer);
